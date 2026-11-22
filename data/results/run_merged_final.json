@@ -1,0 +1,2424 @@
+[
+  {
+    "case_id": "F-001",
+    "failure_mode": "FEASIBLE",
+    "agent_type": "B1",
+    "gt_feasible": true,
+    "final_recommendation": {
+      "feasible": true,
+      "supply_mix": {
+        "wind_bess": 13.4,
+        "grid": 120
+      },
+      "reasoning": "The strategy employs a phased build-out of wind_bess generation to complement grid supply, ensuring all load demands are met while staying within budget and achieving the carbon target. Diesel_gen was not required given the grid capacity, budget, and the high carbon footprint of diesel which would make the carbon target difficult to meet. Grid capacity is 80 MW initially, upgrading to 120 MW in 2028. Total Capex is $22.78M, well below the $200M budget. Blended carbon intensity is maintained below 350 kg/MWh across all phases. Reliability is met by ensuring firm dispatchable capacity exceeds peak load and leveraging the grid's high capacity factor.",
+      "missing_data": "NOx emission data for technologies was not provided, so the NOx constraint could not be validated."
+    },
+    "tool_calls": [],
+    "blocked_calls": 0,
+    "total_tokens": 1003,
+    "latency_sec": 41.148152112960815,
+    "error": null,
+    "invalid_recommendation": true,
+    "correct_feasibility": false,
+    "constraint_violations": [
+      "validate_capacity",
+      "validate_carbon"
+    ],
+    "validators_called": 0,
+    "parse_failed": false
+  },
+  {
+    "case_id": "F-002",
+    "failure_mode": "FEASIBLE",
+    "agent_type": "B1",
+    "gt_feasible": true,
+    "final_recommendation": {
+      "feasible": true,
+      "supply_mix": {
+        "wind_bess": 45.21,
+        "grid": 3.72
+      },
+      "reasoning": "A phased buildout using a blend of wind_bess and grid supply effectively meets growing load while adhering to stringent carbon, cost, and reliability targets. Wind_bess, with its low carbon intensity (10 kg/MWh) and competitive capex ($1700/kW), is prioritized to offset the high carbon intensity of grid supply (386 kg/MWh). The blend is carefully calculated to ensure the total weighted carbon intensity does not exceed 80 kg CO2/MWh in any phase. Grid capacity is utilized up to its limits (15 MW initially, then 30 MW after upgrade in 2027) as needed to provide firm capacity and balance the blend, while remaining within the carbon target. Total capital expenditure is well within the budget, and reliability is met by leveraging the grid's high uptime (0.999) and the firming capability of wind_bess.",
+      "missing_data": "NOx emissions data for grid, wind_bess, and solar_bess technologies were not provided, so the NOx constraint could not be validated."
+    },
+    "tool_calls": [],
+    "blocked_calls": 0,
+    "total_tokens": 1057,
+    "latency_sec": 74.46813011169434,
+    "error": null,
+    "invalid_recommendation": true,
+    "correct_feasibility": false,
+    "constraint_violations": [
+      "validate_capacity"
+    ],
+    "validators_called": 0,
+    "parse_failed": false
+  },
+  {
+    "case_id": "F-003",
+    "failure_mode": "FEASIBLE",
+    "agent_type": "B1",
+    "gt_feasible": true,
+    "final_recommendation": {
+      "feasible": true,
+      "supply_mix": {
+        "grid": 3.72,
+        "wind_bess": 184.1,
+        "smr": 31.91
+      },
+      "reasoning": "A phased strategy ensures all constraints are met:\n\nPhase 1 (Yrs 0-2, online 2027, 40 MW peak):\n- Supply: 2.13 MW firm from grid, 37.87 MW firm from Wind_BESS (105.2 MW nameplate).\n- Capacity: 40 MW firm supply meets 40 MW peak.\n- Carbon: (2.13*386 + 37.87*10)/40 = 30.0 kg/MWh. Meets target.\n- Capex: 105.2 MW * $1700/kW = $178.84M. Within budget.\n- Reliability: On-site Wind_BESS capacity provides redundancy for grid outages, meeting 99.99%.\n\nPhase 2 (Yrs 2-5, online 2029, 70 MW peak):\n- Supply: 3.72 MW firm from grid, 66.28 MW firm from Wind_BESS (184.1 MW total nameplate, adding 78.9 MW nameplate).\n- Capacity: 70 MW firm supply meets 70 MW peak. Grid access increases to 120 MW from 2028.\n- Carbon: (3.72*386 + 66.28*10)/70 = 29.99 kg/MWh. Meets target.\n- Capex: Additional 78.9 MW * $1700/kW = $134.13M. Total = $312.97M. Within budget.\n- Reliability: Maintained by expanded Wind_BESS capacity.\n\nPhase 3 (Yrs 5+, online 2032, 100 MW peak):\n- Supply: 3.72 MW firm from grid, 66.28 MW firm from Wind_BESS (184.1 MW nameplate), 30 MW firm from SMR (31.91 MW nameplate).\n- Capacity: 100 MW firm supply meets 100 MW peak.\n- Carbon: (3.72*386 + 66.28*10 + 30*12)/100 = 24.59 kg/MWh. Well below target.\n- Capex: Additional 31.91 MW * $5600/kW = $178.696M. Total = $491.67M. Well within $900M budget.\n- Reliability: SMR and Wind_BESS provide 96.28 MW of on-site dispatchable capacity, ensuring 99.99% uptime.\n- Deployment: All technologies are deployable within the specified timelines for each phase (Wind_BESS for P1/P2, SMR for P3 starting 2027 for 2032 online).\n\nFinal supply mix values in the output are nameplate MW for generators and firm capacity used for grid.",
+      "missing_data": "NOx emissions data (g/MWh) for all specified technologies (grid, diesel_gen, wind_bess, smr) was not provided in the reference model. The recommendation assumes that for the minimal grid contribution and the use of zero-NOx sources (Wind_BESS, SMR), the NOx target would be met."
+    },
+    "tool_calls": [],
+    "blocked_calls": 0,
+    "total_tokens": 1630,
+    "latency_sec": 40.523154973983765,
+    "error": null,
+    "invalid_recommendation": true,
+    "correct_feasibility": false,
+    "constraint_violations": [
+      "validate_capacity",
+      "validate_reliability"
+    ],
+    "validators_called": 0,
+    "parse_failed": false
+  },
+  {
+    "case_id": "F-004",
+    "failure_mode": "FEASIBLE",
+    "agent_type": "B1",
+    "gt_feasible": true,
+    "final_recommendation": {
+      "feasible": null,
+      "supply_mix": {
+        "solar_bess": 7.9,
+        "grid": 13.42
+      },
+      "reasoning": "The phased strategy utilizes grid supply as the primary source, leveraging its zero capex and high reliability (0.999 uptime). Solar_bess capacity is gradually deployed across phases (4.2 MW in P1, additional 2.1 MW in P2, additional 1.6 MW in P3, totaling 7.9 MW nameplate) to meet the carbon intensity target. This mix keeps the blended carbon intensity below 350 kg/MWh in all phases. Total capital expenditure for the solar_bess deployment is $18.96M, well within the $50M budget. The maximum firm grid draw in Phase 3 (13.42 MW) is well under the 30 MW interconnect limit. System reliability meets the >=99.5% target due to the grid's high uptime. However, the NOx constraint cannot be validated due to missing NOx emissions data for 'grid' and 'solar_bess' technologies.",
+      "missing_data": "NOx emission values for 'grid' and 'solar_bess' technologies are not provided, preventing validation of the NOx constraint."
+    },
+    "tool_calls": [],
+    "blocked_calls": 0,
+    "total_tokens": 1048,
+    "latency_sec": 24.817065000534058,
+    "error": null,
+    "invalid_recommendation": false,
+    "correct_feasibility": false,
+    "constraint_violations": [],
+    "validators_called": 0,
+    "parse_failed": false
+  },
+  {
+    "case_id": "F-005",
+    "failure_mode": "FEASIBLE",
+    "agent_type": "B1",
+    "gt_feasible": true,
+    "final_recommendation": {
+      "feasible": true,
+      "supply_mix": {
+        "wind_bess": 101.75,
+        "grid": 8.39
+      },
+      "reasoning": "The strategy proposes a phased build-out to meet load growth and constraints. Starting with 57 MW wind_bess and 4.5 MW grid in Phase 1 (2027), then adding 27.8 MW wind_bess in Phase 2 (2029), and finally 16.95 MW wind_bess and 3.89 MW grid in Phase 3 (2032). This achieves a total firm capacity of 45.01 MW (Phase 3) while keeping cumulative Capex at $172.98M, well within the $180M budget. The blended carbon intensity for each phase is below 80 kg CO2/MWh (e.g., 77.57 kg/MWh in P1, 58.26 kg/MWh in P2, and 79.99 kg/MWh in P3). Grid usage remains below the confirmed interconnect limits (50 MW initially, 70 MW from 2028). The high firm capacity and reliable grid component ensure uptime meets the 99.0% target.",
+      "missing_data": "NOx emission data for grid supply is not provided in the technology specs, so the <= 200 g/MWh NOx constraint could not be fully validated for the grid component."
+    },
+    "tool_calls": [],
+    "blocked_calls": 0,
+    "total_tokens": 1115,
+    "latency_sec": 43.87971091270447,
+    "error": null,
+    "invalid_recommendation": true,
+    "correct_feasibility": false,
+    "constraint_violations": [
+      "validate_carbon"
+    ],
+    "validators_called": 0,
+    "parse_failed": false
+  },
+  {
+    "case_id": "F-006",
+    "failure_mode": "FEASIBLE",
+    "agent_type": "B1",
+    "gt_feasible": true,
+    "final_recommendation": {
+      "feasible": true,
+      "supply_mix": {
+        "fuel_cell_sofc": 32.61,
+        "grid": 35.0
+      },
+      "reasoning": "The strategy proposes a phased build-out of fuel_cell_sofc to meet peak load, supplemented by grid power to achieve the carbon target. \n\n1.  CAPACITY: The total firm capacity from fuel cells at Phase 3 (30 MW load) is 32.61 MW * 0.92 = 30 MW, precisely meeting the peak load. The grid interconnect limit of 35 MW is well above the required grid contribution for carbon reduction.\n2.  COST: The cumulative capital expenditure for 32.61 MW of fuel_cell_sofc is 32.61 MW * $3000/kW = $97.83M, which is well within the $150M budget.\n3.  CARBON: By strategically dispatching approximately 26.43 MW from fuel_cell_sofc (470 kg/MWh) and 3.57 MW from grid (386 kg/MWh) for the Phase 3 peak, the blended carbon intensity is (26.43*470 + 3.57*386) / 30 = 459.97 kg/MWh, meeting the <= 460 kg/MWh target. This dispatch strategy scales proportionally for earlier phases.\n4.  RELIABILITY: Fuel cells are installed to provide 100% of the firm capacity for the peak load (30 MW). This design allows the data center to operate at full capacity even during a grid outage, assuming the fuel cell system is engineered with appropriate redundancy (e.g., N+1) to achieve 99.99% uptime for dispatchable generation. The grid serves as a supplementary power source for carbon optimization and additional redundancy.\n\nPhased Deployment:\n- Phase 1 (15 MW): Install 16.3 MW fuel_cell_sofc (firm 15 MW). Capex: $48.9M. Dispatch mix achieves 460 kg/MWh carbon.\n- Phase 2 (25 MW): Install additional 10.87 MW fuel_cell_sofc (total 27.17 MW, firm 25 MW). Cumulative Capex: $81.51M. Dispatch mix achieves 460 kg/MWh carbon.\n- Phase 3 (30 MW): Install additional 5.44 MW fuel_cell_sofc (total 32.61 MW, firm 30 MW). Cumulative Capex: $97.83M. Dispatch mix achieves 460 kg/MWh carbon.",
+      "missing_data": "NOx emission data for technologies (to confirm adherence to <= 600 g/MWh constraint)."
+    },
+    "tool_calls": [],
+    "blocked_calls": 0,
+    "total_tokens": 1435,
+    "latency_sec": 55.86617112159729,
+    "error": null,
+    "invalid_recommendation": true,
+    "correct_feasibility": false,
+    "constraint_violations": [
+      "validate_reliability"
+    ],
+    "validators_called": 0,
+    "parse_failed": false
+  },
+  {
+    "case_id": "IP-001",
+    "failure_mode": "INFEASIBLE_PHASE",
+    "agent_type": "B1",
+    "gt_feasible": false,
+    "final_recommendation": {
+      "feasible": false,
+      "supply_mix": {
+        "grid": 60
+      },
+      "reasoning": "The power supply strategy is infeasible due to an inability to meet peak load during Phase 2. The campus requires 60 MW of power starting in 2027 (based on 'Phase 2 needs 60 MW in 2027' statement). However, the grid upgrade to provide 60 MW total capacity is not available until 2030. This results in a 30 MW deficit for the years 2027, 2028, and 2029. Given the strict constraint 'Only grid allowed,' no alternative power sources can be deployed to cover this shortfall. All other constraints (Cost, Carbon, Reliability) would have been met if capacity was available.",
+      "missing_data": "NOx emissions data for grid supply is not provided in the technology specs, preventing validation of the NOx constraint."
+    },
+    "tool_calls": [],
+    "blocked_calls": 0,
+    "total_tokens": 996,
+    "latency_sec": 26.081645965576172,
+    "error": null,
+    "invalid_recommendation": false,
+    "correct_feasibility": true,
+    "constraint_violations": [],
+    "validators_called": 0,
+    "parse_failed": false
+  },
+  {
+    "case_id": "IP-002",
+    "failure_mode": "INFEASIBLE_PHASE",
+    "agent_type": "B1",
+    "gt_feasible": false,
+    "final_recommendation": {
+      "feasible": false,
+      "supply_mix": {},
+      "reasoning": "The project is infeasible due to fundamental conflicts between the required load profile, reliability target, and the only permitted power supply technology. The campus requires a continuous 40 MW load with a high reliability target (>= 99.9% uptime) starting in 2027. However, the problem explicitly states that '12h storage cannot cover 24/7 load at 40 MW scale' for solar_bess. This directly indicates that solar_bess, even with its integrated battery storage, cannot meet the required continuous firm capacity and reliability targets for a 24/7 operation. Furthermore, to provide a 'firm' 40 MW supply (defined as CF \u00d7 nameplate_MW) from solar_bess (CF=0.20), a nameplate capacity of 40 MW / 0.20 = 200 MW would be required. The capital expenditure for 200 MW of solar_bess would be 200,000 kW * $2400/kW = $480,000,000, which significantly exceeds the budget ceiling of $300,000,000. Grid interconnect is not available until 2031, making it unusable for initial phases, and its high carbon intensity (386 kg/MWh) would prevent significant utilization even when available, as it would violate the 100 kg CO2/MWh carbon target."
+    },
+    "tool_calls": [],
+    "blocked_calls": 0,
+    "total_tokens": 1139,
+    "latency_sec": 21.75671696662903,
+    "error": null,
+    "invalid_recommendation": false,
+    "correct_feasibility": true,
+    "constraint_violations": [],
+    "validators_called": 0,
+    "parse_failed": false
+  },
+  {
+    "case_id": "IP-003",
+    "failure_mode": "INFEASIBLE_PHASE",
+    "agent_type": "B1",
+    "gt_feasible": false,
+    "final_recommendation": {
+      "feasible": true,
+      "supply_mix": {
+        "grid": 80,
+        "wind_bess": 206.39
+      },
+      "reasoning": "A phased deployment strategy involving 206.39 MW (nameplate) of wind_bess, complementing the existing 80 MW grid interconnect, meets all capacity, cost, carbon, and reliability targets by Phase 3. The wind_bess capacity is added incrementally to match load growth: 68.72 MW for Phase 1 (50 MW load), an additional 68.70 MW for Phase 2 (100 MW load), and a final 68.97 MW for Phase 3 (150 MW load). The total capital expenditure is $350.86M, well within the $500M budget. The blended carbon intensity for the 150 MW system is 199.83 kg/MWh, which is below the 200 kg/MWh target. This requires limiting the effective firm contribution from the grid to 75.7 MW for the carbon intensity calculation, alongside 74.3 MW firm from wind_bess, to dilute the grid's higher carbon intensity. Total firm capacity provided is 150 MW. System uptime is met due to the grid's 0.999 reliability and adequate firm capacity from the combined sources.",
+      "missing_data": "NOx emissions data for grid supply is required to validate the NOx constraint of <= 400 g/MWh."
+    },
+    "tool_calls": [],
+    "blocked_calls": 0,
+    "total_tokens": 1177,
+    "latency_sec": 50.91852307319641,
+    "error": null,
+    "invalid_recommendation": true,
+    "correct_feasibility": false,
+    "constraint_violations": [
+      "validate_carbon"
+    ],
+    "validators_called": 0,
+    "parse_failed": false
+  },
+  {
+    "case_id": "IP-004",
+    "failure_mode": "INFEASIBLE_PHASE",
+    "agent_type": "B1",
+    "gt_feasible": false,
+    "final_recommendation": {
+      "feasible": false,
+      "supply_mix": {},
+      "reasoning": "The required firm capacity for Phase 2 (50 MW load by 2027) cannot be met within the budget. The existing 15 MW grid provides 14.985 MW of firm capacity (15 MW * 0.999 CF). The remaining 35.015 MW of firm capacity would need to be sourced from solar_bess. Given solar_bess has a Capacity Factor (CF) of 0.20, a nameplate capacity of 175.075 MW (35.015 MW / 0.20) would be required to provide this firm supply. The capital expenditure for 175.075 MW of solar_bess at $2400/kW is $420.18 million, which significantly exceeds the $100 million budget.",
+      "missing_data": "NOx emission values for grid and solar_bess are not provided, preventing validation of the NOx constraint."
+    },
+    "tool_calls": [],
+    "blocked_calls": 0,
+    "total_tokens": 1043,
+    "latency_sec": 39.72259593009949,
+    "error": null,
+    "invalid_recommendation": false,
+    "correct_feasibility": true,
+    "constraint_violations": [],
+    "validators_called": 0,
+    "parse_failed": false
+  },
+  {
+    "case_id": "IP-005",
+    "failure_mode": "INFEASIBLE_PHASE",
+    "agent_type": "B1",
+    "gt_feasible": false,
+    "final_recommendation": {
+      "feasible": false,
+      "supply_mix": {},
+      "reasoning": "The power supply strategy is infeasible due to multiple unaddressable constraints:\n\n1.  **Phase 1 Carbon Constraint:** The project's first phase (60 MW by 2026) can only be supplied by grid power given the allowed technologies and geothermal's long deployment time (60-100 months). Grid power's carbon intensity is 386 kg/MWh, which significantly exceeds the target of 200 kg/MWh. No other allowed technology can be deployed by 2026 to lower the blended carbon intensity.\n2.  **Phase 2 Capacity Shortfall:** The project requires 120 MW by 2028. The confirmed grid supply is capped at 100 MW. Geothermal, the only allowed supplementary technology, is explicitly stated as \"too slow for 2028 target.\" This results in an unresolvable 20 MW capacity deficit for Phase 2.\n3.  **Long-Term Carbon Constraint (Even if deployable):** Even if geothermal could be deployed for the final phase (Phase 3, 200 MW by 2031), a blend of 100 MW Grid and 100 MW Geothermal (the maximum possible using the allowed resources to meet load) would result in a blended carbon intensity of approximately 228.8 kg/MWh. This still exceeds the 200 kg/MWh target, making the overall project infeasible for carbon even in the long term.",
+      "missing_data": "NOx emission data for allowed technologies (grid, geothermal) is missing from the provided technology specs. The constraint for NOx is <= 300 g/MWh."
+    },
+    "tool_calls": [],
+    "blocked_calls": 0,
+    "total_tokens": 1183,
+    "latency_sec": 24.943413019180298,
+    "error": null,
+    "invalid_recommendation": false,
+    "correct_feasibility": true,
+    "constraint_violations": [],
+    "validators_called": 0,
+    "parse_failed": false
+  },
+  {
+    "case_id": "BV-001",
+    "failure_mode": "BUDGET_VIOLATION",
+    "agent_type": "B1",
+    "gt_feasible": false,
+    "final_recommendation": {
+      "feasible": false,
+      "supply_mix": {},
+      "reasoning": "The carbon target of <= 20 kg CO2/MWh is extremely strict. To achieve this target, the vast majority of energy (over 97.8%) must come from Small Modular Reactors (SMRs), as grid power (386 kg/MWh) and diesel generation (790 kg/MWh) have significantly higher carbon intensities. To meet the Phase 1 peak load of 20 MW with the required low carbon intensity would necessitate approximately 21.28 MW of SMR nameplate capacity (20 MW firm divided by 0.94 CF). The capital expenditure for this SMR capacity alone would be 21,280 kW * $5,600/kW = $119.17M, which exceeds the $100M budget. Even if the budget were met for a smaller SMR capacity, the remaining load would need to be met by grid power, pushing the blended carbon intensity far above the 20 kg/MWh target (e.g., max SMR within budget, 17.86 MW, leads to ~83 kg/MWh blended carbon). Additionally, SMR deployment timelines (60-120 months) make it impossible to bring SMRs online by the target year of 2028 for Phase 1, making any strategy reliant on SMR for early phases unviable.",
+      "missing_data": "NOx emissions for all technologies were not provided, making the NOx constraint unvalidatable."
+    },
+    "tool_calls": [],
+    "blocked_calls": 0,
+    "total_tokens": 1151,
+    "latency_sec": 23.810412168502808,
+    "error": null,
+    "invalid_recommendation": false,
+    "correct_feasibility": true,
+    "constraint_violations": [],
+    "validators_called": 0,
+    "parse_failed": false
+  },
+  {
+    "case_id": "BV-002",
+    "failure_mode": "BUDGET_VIOLATION",
+    "agent_type": "B1",
+    "gt_feasible": false,
+    "final_recommendation": {
+      "feasible": false,
+      "supply_mix": {},
+      "reasoning": "The core constraint of meeting an 80 MW peak load with 'firm' (dispatchable) supply, defined as `capacity_factor \u00d7 nameplate_MW`, cannot be achieved within the $50M capital expenditure budget. \n\n1.  **Capacity & Cost Analysis:**\n    *   Required firm capacity: 80 MW.\n    *   Firm capacity per kW from diesel_gen: 0.80. Cost per firm kW: $900/kW / 0.80 = $1125/kW_firm.\n    *   Firm capacity per kW from solar_bess: 0.20. Cost per firm kW: $2400/kW / 0.20 = $12000/kW_firm.\n    *   To meet the 80 MW firm capacity requirement most cost-effectively, diesel_gen must be maximized. The minimum capital expenditure to provide 80 MW of firm capacity would be if it all came from diesel_gen:\n        *   80 MW_firm / 0.80 (diesel CF) = 100 MW diesel_gen nameplate capacity.\n        *   Cost: 100 MW * $900/kW = $90,000,000.\n    *   This minimum required cost ($90M) far exceeds the $50M budget ceiling. Any combination with solar_bess (which is significantly more expensive per firm kW) would only further increase the total cost, making it impossible to meet the 80 MW firm capacity within the budget.\n\n2.  **Phased Strategy Implication:** The demand for 80 MW firm capacity is immediate (Phase 1, Yrs 0-2) and the budget applies to total capital expenditure, so a phased deployment cannot resolve this initial capital shortfall for the required firm capacity.\n\nTherefore, the proposed power pathway is infeasible under the given constraints.",
+      "missing_data": "NOx emission rates for specified technologies are not provided in the 'Technology specs' table, preventing validation of the NOx constraint."
+    },
+    "tool_calls": [],
+    "blocked_calls": 0,
+    "total_tokens": 1285,
+    "latency_sec": 34.36497402191162,
+    "error": null,
+    "invalid_recommendation": false,
+    "correct_feasibility": true,
+    "constraint_violations": [],
+    "validators_called": 0,
+    "parse_failed": false
+  },
+  {
+    "case_id": "BV-003",
+    "failure_mode": "BUDGET_VIOLATION",
+    "agent_type": "B1",
+    "gt_feasible": false,
+    "final_recommendation": {
+      "feasible": false,
+      "supply_mix": {},
+      "reasoning": "The strict carbon intensity target of <= 15 kg CO2/MWh, combined with the reliability target of >= 99.99%, explicitly requires SMR (Small Modular Reactor) as the primary power source, supplemented by diesel backup. SMR has a carbon intensity of 12 kg/MWh. However, SMR also has a deployment time of 60-120 months (5-10 years). With a target online year of 2028 for the facility, SMR cannot be operational until 2033 at the earliest (2028 + 5 years). During Phase 1 (Yrs 0-2: 2028-2030) and Phase 2 (Yrs 2-5: 2030-2033), SMR would not be available. The only other allowed firm supply options during these phases are grid power (386 kg/MWh) and diesel generation (790 kg/MWh). It is impossible to blend grid and diesel power to achieve an average carbon intensity of <= 15 kg/MWh, as SMR must contribute over 99% of the energy to meet this target. Therefore, the carbon constraint cannot be met from the project's online year in 2028, making the proposed phased strategy infeasible under the given constraints.",
+      "missing_data": "NOx emission data for technologies (diesel_gen, smr, grid) is not provided in the Power Pathway Optimizer reference model, preventing validation of the NOx constraint (<= 100 g/MWh)."
+    },
+    "tool_calls": [],
+    "blocked_calls": 0,
+    "total_tokens": 1163,
+    "latency_sec": 21.530649185180664,
+    "error": null,
+    "invalid_recommendation": false,
+    "correct_feasibility": true,
+    "constraint_violations": [],
+    "validators_called": 0,
+    "parse_failed": false
+  },
+  {
+    "case_id": "BV-004",
+    "failure_mode": "BUDGET_VIOLATION",
+    "agent_type": "B1",
+    "gt_feasible": false,
+    "final_recommendation": {
+      "feasible": false,
+      "supply_mix": {
+        "grid": 25,
+        "fuel_cell_sofc": 13.33
+      },
+      "reasoning": "The core challenge lies in the stringent reliability target (99.995% uptime) for the data center's full load across all phases, combined with a limited budget ($40M). The grid, with 0.1% inherent downtime (CF 0.999), cannot meet 99.995% uptime on its own. To achieve this, sufficient on-site, firm, dispatchable capacity (e.g., fuel cells) is typically required to cover the entire load during a grid outage.\n\nMaximizing fuel cell deployment within the budget allows for 13.33 MW of fuel cell nameplate capacity (costing $39.99M), providing 12.26 MW of firm on-site power.\n\n- Phase 1 (10 MW load): The 12.26 MW firm fuel cell capacity is sufficient to back up the 10 MW load if the grid fails, meeting the reliability target.\n- Phase 2 (20 MW load): The 12.26 MW firm fuel cell capacity is insufficient to back up the full 20 MW load. If the grid fails, 7.74 MW of load would be lost, thus failing to meet the 99.995% uptime for the entire load.\n- Phase 3 (25 MW load): Similarly, 12.26 MW of firm fuel cell capacity is insufficient to back up the full 25 MW load. If the grid fails, 12.74 MW of load would be lost, also failing the reliability target.\n\nWhile the total firm capacity (grid + fuel cell) meets peak load in all phases, and the carbon and cost constraints are met, the critical reliability constraint for the full load in later phases is not satisfied due to the budget limitations preventing adequate on-site backup generation. The problem statement explicitly highlighted that a full 25 MW fuel cell solution ($75M+) is well beyond the $40M budget, reinforcing this infeasibility.",
+      "missing_data": "NOx emission data for all technologies"
+    },
+    "tool_calls": [],
+    "blocked_calls": 0,
+    "total_tokens": 1307,
+    "latency_sec": 40.35493993759155,
+    "error": null,
+    "invalid_recommendation": false,
+    "correct_feasibility": true,
+    "constraint_violations": [],
+    "validators_called": 0,
+    "parse_failed": false
+  },
+  {
+    "case_id": "CV-001",
+    "failure_mode": "CARBON_VIOLATION",
+    "agent_type": "B1",
+    "gt_feasible": false,
+    "final_recommendation": {
+      "feasible": false,
+      "supply_mix": {},
+      "reasoning": "The carbon emissions target of 40 kg CO2/MWh cannot be met with the allowed supply technologies. Both grid (386 kg/MWh) and diesel_gen (790 kg/MWh) have carbon intensities significantly higher than the target. Any blend of these two sources would result in a blended carbon intensity above 40 kg/MWh. \n\nValidation Summary:\n- Capacity: Could be met using grid supply up to 30 MW.\n- Cost: Budget of $200M is ample for any required diesel generation.\n- Carbon: Failed. Impossible to meet 40 kg/MWh target with available options.\n- Reliability: Could be met, as grid has 99.9% uptime and diesel could provide backup.\n- NOx: Cannot be validated due to missing data.",
+      "missing_data": "NOx emissions data for diesel_gen and grid are not provided, which prevents validation of the NOx constraint (<= 1000 g/MWh)."
+    },
+    "tool_calls": [],
+    "blocked_calls": 0,
+    "total_tokens": 1028,
+    "latency_sec": 12.55791425704956,
+    "error": null,
+    "invalid_recommendation": false,
+    "correct_feasibility": true,
+    "constraint_violations": [],
+    "validators_called": 0,
+    "parse_failed": false
+  },
+  {
+    "case_id": "CV-002",
+    "failure_mode": "CARBON_VIOLATION",
+    "agent_type": "B1",
+    "gt_feasible": false,
+    "final_recommendation": {
+      "feasible": false,
+      "supply_mix": {
+        "grid": 60,
+        "solar_bess": 0
+      },
+      "reasoning": "The carbon intensity target of <= 100 kg CO2/MWh cannot be met within the $5M capital expenditure budget. To achieve this target, over 82% of the energy consumed would need to come from solar_bess (40 kg/MWh). For a 50 MW peak load, this would require deploying over 200 MW of solar_bess nameplate capacity, which would cost more than $400M, far exceeding the $5M budget. The grid (386 kg/MWh) alone, while capable of meeting all capacity (up to 60 MW confirmed) and reliability (99.9% uptime) targets, significantly exceeds the carbon intensity limit. Therefore, no feasible solution exists under the given constraints.",
+      "missing_data": null
+    },
+    "tool_calls": [],
+    "blocked_calls": 0,
+    "total_tokens": 998,
+    "latency_sec": 28.122255086898804,
+    "error": null,
+    "invalid_recommendation": false,
+    "correct_feasibility": true,
+    "constraint_violations": [],
+    "validators_called": 0,
+    "parse_failed": false
+  },
+  {
+    "case_id": "CV-003",
+    "failure_mode": "CARBON_VIOLATION",
+    "agent_type": "B1",
+    "gt_feasible": false,
+    "final_recommendation": {
+      "feasible": false,
+      "supply_mix": {},
+      "reasoning": "The required carbon intensity target of 50 kg CO2/MWh is extremely stringent given the allowed supply technologies (diesel_gen, solar_bess) and the budget ($120M). To meet the carbon target, a very high proportion of solar_bess capacity is required, as it is the only allowed technology with carbon intensity below the target (40 kg/MWh). However, solar_bess has a low capacity factor (0.20) and a high capex ($2400/kW) for firm supply. Calculations show that even if the entire $120M budget is optimally allocated between diesel_gen and solar_bess to achieve the carbon target, the maximum firm capacity that can be built is approximately 10.1 MW. This is insufficient to meet the Phase 1 peak load of 20 MW, let alone the 30 MW and 40 MW loads in subsequent phases, especially since no grid power is available until 2030. Therefore, it is not possible to meet all capacity, cost, and carbon constraints simultaneously.",
+      "missing_data": "NOx emissions data (g/MWh) for diesel_gen and solar_bess were not provided in the technology specifications, making it impossible to validate the NOx constraint of <= 200 g/MWh."
+    },
+    "tool_calls": [],
+    "blocked_calls": 0,
+    "total_tokens": 1096,
+    "latency_sec": 25.034436225891113,
+    "error": null,
+    "invalid_recommendation": false,
+    "correct_feasibility": true,
+    "constraint_violations": [],
+    "validators_called": 0,
+    "parse_failed": false
+  },
+  {
+    "case_id": "HT-001",
+    "failure_mode": "HALLUCINATION_TRAP",
+    "agent_type": "B1",
+    "gt_feasible": false,
+    "final_recommendation": {
+      "feasible": true,
+      "supply_mix": {
+        "grid": 20.0,
+        "wind_bess": 111.12
+      },
+      "reasoning": "A phased strategy ensures firm capacity growth, meets stringent carbon targets, and stays within budget. The high carbon intensity of grid supply (386 kg/MWh) necessitates a significant blend of low-carbon renewables from Phase 1 to achieve the <= 200 kg/MWh target. Wind_bess was chosen over solar_bess due to its lower capital cost per kW (1700 vs 2400) and lower carbon intensity (10 vs 40 kg/MWh), making it the only viable option within the budget for the required firm capacity. The final blend for Phase 3 (20 MW firm from grid, 40 MW firm from wind_bess) results in a carbon intensity of 135.33 kg/MWh, well within target. The total capital expenditure for the staged deployment of 111.12 MW (nameplate) of wind_bess is $188.91M, remaining within the $200M budget. System reliability is primarily supported by the 0.999 uptime of the grid, supplemented by dispatchable wind_bess, meeting the >= 99.9% target.",
+      "missing_data": "NOx emission data for grid, solar_bess, and wind_bess technologies were not available in the provided reference model, preventing validation of the NOx constraint (<= 600 g/MWh)."
+    },
+    "tool_calls": [],
+    "blocked_calls": 0,
+    "total_tokens": 1146,
+    "latency_sec": 52.47810411453247,
+    "error": null,
+    "invalid_recommendation": true,
+    "correct_feasibility": false,
+    "constraint_violations": [
+      "validate_capacity",
+      "validate_reliability"
+    ],
+    "validators_called": 0,
+    "parse_failed": false
+  },
+  {
+    "case_id": "HT-002",
+    "failure_mode": "HALLUCINATION_TRAP",
+    "agent_type": "B1",
+    "gt_feasible": null,
+    "final_recommendation": {
+      "feasible": null,
+      "supply_mix": {},
+      "reasoning": "A power supply strategy cannot be formulated or validated because critical data is missing. The firm capacity from the 'grid' supply is unknown as the grid interconnect limit (MW) was not provided. Without this information, it's impossible to determine if any supply mix can meet the load requirements across all phases or to accurately calculate costs, carbon intensity, or reliability for a complete system. Additionally, NOx emissions data for all specified technologies (grid, solar_bess, wind_bess) is missing, preventing validation against the NOx constraint.",
+      "missing_data": "grid interconnect limit (MW), NOx emissions (g/MWh) for all technologies (grid, solar_bess, wind_bess)"
+    },
+    "tool_calls": [],
+    "blocked_calls": 0,
+    "total_tokens": 950,
+    "latency_sec": 9.595254182815552,
+    "error": null,
+    "invalid_recommendation": false,
+    "correct_feasibility": true,
+    "constraint_violations": [],
+    "validators_called": 0,
+    "parse_failed": false
+  },
+  {
+    "case_id": "HT-003",
+    "failure_mode": "HALLUCINATION_TRAP",
+    "agent_type": "B1",
+    "gt_feasible": false,
+    "final_recommendation": {
+      "feasible": false,
+      "supply_mix": {
+        "grid": 10,
+        "solar_bess": 50
+      },
+      "reasoning": "The power supply strategy is infeasible due to an immediate violation of the capital expenditure budget in Phase 1. To meet the Phase 1 peak load of 20 MW, with 10 MW supplied by the grid, the remaining 10 MW must be provided by firm solar_bess capacity. According to the problem's definition, 'firm' capacity is calculated as 'capacity_factor \u00d7 nameplate_MW'. With a solar_bess capacity factor (CF) of 0.20, providing 10 MW of firm capacity requires 50 MW of solar_bess nameplate capacity (10 MW firm / 0.20 CF). The capital expenditure for this 50 MW nameplate capacity is 50,000 kW * $2400/kW = $120,000,000. This cost far exceeds the total budget ceiling of $55,000,000, making the strategy economically unviable from the outset.",
+      "missing_data": "NOx emission data for grid and solar_bess are not provided in the technology specifications. Therefore, the NOx constraint (<= 200 g/MWh) cannot be validated for this proposed supply mix."
+    },
+    "tool_calls": [],
+    "blocked_calls": 0,
+    "total_tokens": 1101,
+    "latency_sec": 29.588914155960083,
+    "error": null,
+    "invalid_recommendation": false,
+    "correct_feasibility": true,
+    "constraint_violations": [],
+    "validators_called": 0,
+    "parse_failed": false
+  },
+  {
+    "case_id": "HT-004",
+    "failure_mode": "HALLUCINATION_TRAP",
+    "agent_type": "B1",
+    "gt_feasible": false,
+    "final_recommendation": {
+      "feasible": true,
+      "supply_mix": {
+        "grid": 77.2,
+        "wind_bess": 63.53
+      },
+      "reasoning": "The phased approach successfully meets increasing load demand while adhering to carbon, cost, and reliability targets. The strategy utilizes a blend of grid power and wind_bess, optimized at each phase to keep the blended carbon intensity at or below 300 kg CO2/MWh. \n\nPhase 1 (2027, 40 MW load): The initial supply mix consists of 30.88 MW (nameplate) grid capacity and 25.41 MW (nameplate) wind_bess capacity. This provides 40 MW of firm capacity (30.85 MW firm grid, 9.15 MW firm wind_bess) and a blended carbon intensity of 300 kg/MWh. Initial Capex: $43.20M.\n\nPhase 2 (2029, 80 MW load): The grid interconnect upgrades to 100 MW. The supply is expanded by adding more grid capacity and wind_bess. Total capacity reaches 61.76 MW (nameplate) grid and 50.83 MW (nameplate) wind_bess. This provides 80 MW of firm capacity (61.70 MW firm grid, 18.30 MW firm wind_bess) at 300 kg/MWh. Cumulative Capex: $86.41M.\n\nPhase 3 (2032+, 100 MW load): The final expansion leads to a total of 77.20 MW (nameplate) grid capacity and 63.53 MW (nameplate) wind_bess capacity. This delivers 100 MW of firm capacity (77.13 MW firm grid, 22.87 MW firm wind_bess) at 300 kg/MWh.\n\nAll constraints are met:\n- CAPACITY: Firm supply meets peak load in all phases (40 MW, 80 MW, 100 MW). Grid limits are respected (40 MW initial, 100 MW from 2029).\n- COST: Total capital expenditure is $108.01M, well below the $300M budget ceiling.\n- CARBON: Blended weighted carbon intensity is precisely 300 kg CO2/MWh in all phases, meeting the target.\n- RELIABILITY: Estimated system uptime is >= 99.9%, as grid reliability is 0.999 and firm renewable capacity is factored into meeting peak load.",
+      "missing_data": "NOx emissions data (g/MWh) for 'grid', 'wind_bess', and 'solar_bess' are not provided, therefore the NOx constraint (<= 600 g/MWh) could not be validated. Based on typical emissions profiles, it is assumed the blended clean energy mix would meet this, but it cannot be definitively confirmed."
+    },
+    "tool_calls": [],
+    "blocked_calls": 0,
+    "total_tokens": 1481,
+    "latency_sec": 38.078442096710205,
+    "error": null,
+    "invalid_recommendation": true,
+    "correct_feasibility": false,
+    "constraint_violations": [
+      "validate_capacity",
+      "validate_carbon",
+      "validate_reliability"
+    ],
+    "validators_called": 0,
+    "parse_failed": false
+  },
+  {
+    "case_id": "F-001",
+    "failure_mode": "FEASIBLE",
+    "agent_type": "B2",
+    "gt_feasible": true,
+    "final_recommendation": {
+      "feasible": true,
+      "supply_mix": {
+        "grid": 120,
+        "wind_bess": 59,
+        "diesel_gen": 5
+      },
+      "reasoning": "A phased power supply strategy is designed to meet the increasing load while satisfying all budget, carbon, and reliability constraints. The strategy leverages the existing and upgraded grid interconnect, augmented by significant wind_bess capacity for low carbon and a smaller diesel_gen capacity for robust backup and reliability.\n\n**Phase 1 (30 MW load, Target online 2027)**:\n*   **Capacity (Firm Supply)**: Utilizes 20 MW of grid (from the 80 MW interconnect), 28 MW `wind_bess`, and 5 MW `diesel_gen`.\n    *   Firm capacity contribution: (20 MW * 0.999 grid CF) + (28 MW * 0.36 wind_bess CF) + (5 MW * 0.80 diesel_gen CF) = 19.98 MW + 10.08 MW + 4.0 MW = **34.06 MW**.\n    *   **Constraint Check**: 34.06 MW firm capacity exceeds the 30 MW peak load. Grid utilization of 20 MW is within the 80 MW interconnect limit. (MET)\n*   **Cost (Capex)**:\n    *   Capital expenditure for 28 MW `wind_bess` ($1700/kW) and 5 MW `diesel_gen` ($900/kW) = ($28,000 kW * $1700/kW) + ($5,000 kW * $900/kW) = $47.6M + $4.5M = **$52.1M**.\n    *   **Constraint Check**: $52.1M is well within the $200M budget. (MET)\n*   **Carbon (Blended weighted carbon intensity)**:\n    *   Weighted carbon: (19.98 MW * 386 kg/MWh) + (10.08 MW * 10 kg/MWh) + (4.0 MW * 790 kg/MWh) = 7712.32 + 100.8 + 3160 = 10973.12.\n    *   Blended intensity: 10973.12 / 34.06 MW = **322.2 kg CO2/MWh**.\n    *   **Constraint Check**: 322.2 kg CO2/MWh is below the 350 kg CO2/MWh target. (MET)\n*   **Reliability (Uptime)**:\n    *   **Constraint Check**: With firm capacity exceeding load (34.06 MW > 30 MW) and a diversified supply mix including high-uptime grid (99.9% CF), firming wind_bess, and dispatchable diesel_gen, the estimated system uptime will meet or exceed the 99.5% target. (MET)\n\n**Phase 2 (45 MW load, Yrs 2-5, starting 2028)**:\n*   **Installations**: An additional 31 MW of `wind_bess` is added (cumulative total 59 MW `wind_bess`). The grid interconnect upgrades to 120 MW in 2028. The 5 MW `diesel_gen` from Phase 1 remains.\n*   **Capacity (Firm Supply)**: Utilizes 30 MW of grid (from the 120 MW interconnect), 59 MW `wind_bess`, and 5 MW `diesel_gen`.\n    *   Firm capacity contribution: (30 MW * 0.999 grid CF) + (59 MW * 0.36 wind_bess CF) + (5 MW * 0.80 diesel_gen CF) = 29.97 MW + 21.24 MW + 4.0 MW = **55.21 MW**.\n    *   **Constraint Check**: 55.21 MW firm capacity exceeds the 45 MW peak load. Grid utilization of 30 MW is within the 120 MW interconnect limit. (MET)\n*   **Cost (Capex)**:\n    *   Additional capital expenditure for 31 MW `wind_bess` = ($31,000 kW * $1700/kW) = $52.7M.\n    *   Total cumulative Capex: $52.1M (Phase 1) + $52.7M (Phase 2) = **$104.8M**.\n    *   **Constraint Check**: $104.8M remains well within the $200M budget. (MET)\n*   **Carbon (Blended weighted carbon intensity)**:\n    *   Weighted carbon: (29.97 MW * 386 kg/MWh) + (21.24 MW * 10 kg/MWh) + (4.0 MW * 790 kg/MWh) = 11570.42 + 212.4 + 3160 = 14942.82.\n    *   Blended intensity: 14942.82 / 55.21 MW = **270.65 kg CO2/MWh**.\n    *   **Constraint Check**: 270.65 kg CO2/MWh is below the 350 kg CO2/MWh target. (MET)\n*   **Reliability (Uptime)**:\n    *   **Constraint Check**: Firm capacity of 55.21 MW comfortably exceeds the 45 MW load with diversified sources, ensuring high reliability above 99.5%. (MET)\n\n**Phase 3 (50 MW load, Yrs 5+)**:\n*   **Capacity (Firm Supply)**:\n    *   The existing **55.21 MW** of firm capacity (from 30 MW grid, 59 MW `wind_bess`, and 5 MW `diesel_gen`) remains available.\n    *   **Constraint Check**: 55.21 MW firm capacity fully meets the 50 MW peak load requirement. (MET)\n*   **Cost (Capex)**:\n    *   **Constraint Check**: Total capital expenditure remains **$104.8M**, staying well within the $200M budget. (MET)\n*   **Carbon (Blended weighted carbon intensity)**:\n    *   **Constraint Check**: The blended weighted carbon intensity remains **270.65 kg CO2/MWh**, meeting the 350 kg CO2/MWh target. (MET)\n*   **Reliability (Uptime)**:\n    *   **Constraint Check**: With total firm capacity exceeding the load and robust backup, the system maintains reliability above 99.5%. (MET)",
+      "missing_data": "NOx emission data for all specified technologies is missing from the provided Power Pathway Optimizer reference model. Therefore, the NOx constraint (<= 800 g/MWh) cannot be validated."
+    },
+    "tool_calls": [],
+    "blocked_calls": 0,
+    "total_tokens": 10338,
+    "latency_sec": 100.23232388496399,
+    "error": null,
+    "invalid_recommendation": true,
+    "correct_feasibility": false,
+    "constraint_violations": [
+      "validate_capacity"
+    ],
+    "validators_called": 0,
+    "parse_failed": false
+  },
+  {
+    "case_id": "F-002",
+    "failure_mode": "FEASIBLE",
+    "agent_type": "B2",
+    "gt_feasible": true,
+    "final_recommendation": {
+      "feasible": true,
+      "supply_mix": {
+        "wind_bess": 45.23,
+        "grid": 30.0
+      },
+      "reasoning": "A phased power supply strategy leveraging Wind_BESS and grid power successfully meets all specified constraints. Wind_BESS (10 kg/MWh) was chosen over Solar_BESS (40 kg/MWh) due to its significantly lower carbon intensity, essential for meeting the strict 80 kg/MWh target. The strategy involves a gradual build-out of Wind_BESS capacity to align with load growth, ensuring firm supply and adhering to carbon and budget limits.\n\nPhased Breakdown:\n*   **Phase 1 (10 MW load, target online 2026):** Install 22.62 MW (nameplate) Wind_BESS. This provides 8.14 MW of firm capacity. The remaining 1.86 MW of firm capacity is supplied by the grid. This requires 22.62 MW of Wind_BESS and utilizes 1.86 MW of grid firm capacity, which is within the initial 15 MW grid interconnect limit. Capital expenditure: $38.454M. Blended carbon intensity: 79.94 kg/MWh.\n*   **Phase 2 (15 MW load, from 2028):** Install an additional 11.30 MW Wind_BESS (total 33.92 MW nameplate). This provides 12.21 MW of firm capacity from Wind_BESS. The remaining 2.79 MW of firm capacity is supplied by the grid. Grid usage of 2.79 MW firm capacity is well within the 30 MW interconnect available from 2027. Additional capital expenditure: $19.210M. Cumulative capital expenditure: $57.664M. Blended carbon intensity: 79.98 kg/MWh.\n*   **Phase 3 (20 MW load, from 2031):** Install an additional 11.31 MW Wind_BESS (total 45.23 MW nameplate). This provides 16.28 MW of firm capacity from Wind_BESS. The remaining 3.72 MW of firm capacity is supplied by the grid. Grid usage of 3.72 MW firm capacity is well within the 30 MW interconnect. Additional capital expenditure: $19.227M. Cumulative capital expenditure: $76.891M. Blended carbon intensity: 79.97 kg/MWh.\n\n**Constraint Checklist:**\n1.  **CAPACITY:** The firm supply meets peak load in every phase. For Phase 3, 16.28 MW firm from Wind_BESS (45.23 MW nameplate @ 0.36 CF) + 3.72 MW firm from Grid (out of 30 MW interconnect) = 20.00 MW total firm supply, meeting the 20 MW peak load. Grid usage is always within confirmed limits.\n2.  **COST:** Total Capital Expenditure for all phases is $76.891M, which is well below the $150M budget ceiling.\n3.  **CARBON:** Blended weighted carbon intensity is maintained below 80 kg CO2/MWh in all phases (Phase 3: 79.97 kg CO2/MWh), meeting the target of <= 80 kg CO2/MWh.\n4.  **RELIABILITY:** The estimated system uptime is met. Grid reliability is 99.9%, and Wind_BESS with battery energy storage (BESS) is considered firm and dispatchable (CF 0.36), ensuring high reliability for its contributed capacity. The blend of these sources provides a system uptime exceeding the 99.0% target. The NOx constraint is implicitly met as Wind_BESS is zero-emission, and grid emissions are handled at the utility level, with low grid reliance minimizing on-site impact.",
+      "missing_data": null
+    },
+    "tool_calls": [],
+    "blocked_calls": 0,
+    "total_tokens": 6084,
+    "latency_sec": 117.56009006500244,
+    "error": null,
+    "invalid_recommendation": true,
+    "correct_feasibility": false,
+    "constraint_violations": [
+      "validate_capacity",
+      "validate_carbon"
+    ],
+    "validators_called": 0,
+    "parse_failed": false
+  },
+  {
+    "case_id": "F-003",
+    "failure_mode": "FEASIBLE",
+    "agent_type": "B2",
+    "gt_feasible": true,
+    "final_recommendation": {
+      "feasible": false,
+      "supply_mix": {},
+      "reasoning": "The proposed phased power supply strategy is infeasible, as it cannot meet all specified constraints during Phase 1 (Yrs 0-2), which requires the facility to be online by 2027.\n\n**Phase 1 (Yrs 0-2): Target Online Year 2027, Peak Load 40 MW**\n\n**1. Deployment Timeline Check for 2027 Availability:**\n*   `grid` (0 months deploy): Available.\n*   `diesel_gen` (1-6 months deploy): Available.\n*   `wind_bess` (12-36 months deploy): Not available by 2027 (earliest deployment completion would be 2028).\n*   `smr` (60-120 months deploy): Not available by 2027 (deployment takes 5-10 years).\n\nTherefore, for Phase 1, only `grid` and `diesel_gen` can be utilized.\n\n**2. Constraint Validation for Phase 1 (using only Grid and Diesel_gen):**\n\n*   **CAPACITY (Target: Firm supply meets 40 MW peak load):**\n    *   Grid current capacity: 60 MW. Firm supply from Grid: 60 MW * 0.999 (CF) = 59.94 MW.\n    *   Since 59.94 MW >= 40 MW, the Grid alone provides sufficient firm capacity. Adding `diesel_gen` would further enhance this. \n    *   **Constraint Met.**\n\n*   **COST (Budget: $900M capex):**\n    *   Grid has $0 Capex. If we consider installing 40 MW of `diesel_gen` as a contingency or backup, the cost would be 40,000 kW * $900/kW = $36M.\n    *   $36M is well within the $900M budget.\n    *   **Constraint Met.**\n\n*   **CARBON (Target: <= 30 kg CO2/MWh):**\n    *   Grid carbon intensity: 386 kg/MWh.\n    *   Diesel_gen carbon intensity: 790 kg/MWh.\n    *   Any blend of these two technologies will result in a weighted average carbon intensity significantly higher than 30 kg CO2/MWh. Even utilizing 100% grid power would be 386 kg/MWh. The low-carbon options (`wind_bess`, `smr`) are not deployable by 2027.\n    *   **Constraint Violated.**\n\n*   **RELIABILITY (Target: >= 99.99% uptime):**\n    *   System uptime using Grid as primary and Diesel_gen as backup:\n        Uptime = P(Grid Up) + P(Grid Down) * P(Diesel_gen Up | Grid Down)\n        Uptime = Grid_CF + (1 - Grid_CF) * Diesel_gen_CF\n        Uptime = 0.999 + (1 - 0.999) * 0.80 = 0.999 + 0.001 * 0.80 = 0.999 + 0.0008 = 0.9998 (or 99.98%).\n    *   The achieved uptime of 99.98% is less than the required 99.99%.\n    *   **Constraint Violated.**\n\n**Conclusion:**\nBecause the critical Carbon and Reliability constraints cannot be met during Phase 1 with the technologies deployable by the target online year of 2027, the overall phased power supply strategy is infeasible from the outset.",
+      "missing_data": "NOx emissions for technologies are not provided in the reference model, which prevents validation of the NOx constraint (<= 100 g/MWh). However, this is a secondary issue as the plan is already infeasible based on other constraints."
+    },
+    "tool_calls": [],
+    "blocked_calls": 0,
+    "total_tokens": 7294,
+    "latency_sec": 72.82683396339417,
+    "error": null,
+    "invalid_recommendation": true,
+    "correct_feasibility": false,
+    "constraint_violations": [],
+    "validators_called": 0,
+    "parse_failed": false
+  },
+  {
+    "case_id": "F-004",
+    "failure_mode": "FEASIBLE",
+    "agent_type": "B2",
+    "gt_feasible": true,
+    "final_recommendation": {
+      "feasible": true,
+      "supply_mix": {
+        "grid": 15.015,
+        "solar_bess": 8.7095
+      },
+      "reasoning": "A revised phased strategy using grid power augmented with solar_bess is feasible. For Phase 3 (15 MW peak load), the firm capacity is met by 15.015 MW nameplate grid (providing 15.00 MW firm) and 8.7095 MW nameplate solar_bess (providing 1.7419 MW firm). This provides a total of 16.7419 MW firm capacity, exceeding the 15 MW peak load. The grid interconnection limit of 30 MW is respected (15.015 MW used). The total capital expenditure for 8.7095 MW of solar_bess is $20.90 million, well within the $50 million budget. The blended carbon intensity is 350.00 kg/MWh, precisely meeting the target of <= 350 kg/MWh. Crucially, the estimated system uptime is 99.9%, as the grid alone can reliably provide the full 15 MW peak load, exceeding the 99.5% target. Solar_bess deployment time (6-18 months) aligns with the 2026 target online year.",
+      "missing_data": "NOx emission data for 'grid' and 'solar_bess' were not provided, therefore the NOx constraint could not be directly validated. However, solar_bess produces negligible NOx, and modern grid mixes typically meet environmental standards."
+    },
+    "tool_calls": [],
+    "blocked_calls": 0,
+    "total_tokens": 8535,
+    "latency_sec": 166.5816011428833,
+    "error": null,
+    "invalid_recommendation": true,
+    "correct_feasibility": false,
+    "constraint_violations": [
+      "validate_carbon"
+    ],
+    "validators_called": 0,
+    "parse_failed": false
+  },
+  {
+    "case_id": "F-005",
+    "failure_mode": "FEASIBLE",
+    "agent_type": "B2",
+    "gt_feasible": true,
+    "final_recommendation": {
+      "feasible": true,
+      "supply_mix": {
+        "wind_bess": 101.81,
+        "grid": 8.37
+      },
+      "reasoning": "The strategy employs a phased approach to meet increasing load while adhering to a stringent carbon target. It relies predominantly on wind_bess for low-carbon generation, supplemented by grid supply for firm capacity.\n\nDeployment Schedule:\n- Phase 1 (Yrs 0-2, online by 2027 for 25 MW load): Deploy 56.57 MW (nameplate) wind_bess and contract 4.65 MW grid capacity. This configuration provides a firm supply of 25.01 MW.\n- Phase 2 (Yrs 2-5, online ~2029 for 35 MW load): Deploy an additional 22.62 MW (nameplate) wind_bess (total 79.19 MW wind_bess) and contract an additional 1.86 MW grid capacity (total 6.51 MW grid). This configuration provides a firm supply of 35.01 MW.\n- Phase 3 (Yrs 5+, online ~2032 for 45 MW load): Deploy an additional 22.62 MW (nameplate) wind_bess (total 101.81 MW wind_bess) and contract an additional 1.86 MW grid capacity (total 8.37 MW grid). This configuration provides a firm supply of 45.01 MW.\n\nValidation Checks:\n1. CAPACITY: The firm (dispatchable) supply meets peak load in every phase:\n   - Phase 1: 25.01 MW >= 25 MW load. (Satisfied)\n   - Phase 2: 35.01 MW >= 35 MW load. (Satisfied)\n   - Phase 3: 45.01 MW >= 45 MW load. (Satisfied)\n   Grid interconnect limits (50 MW for Phase 1, 70 MW for Phases 2 & 3) are respected, as the maximum grid contracted is 8.37 MW.\n\n2. COST: Total capital expenditure is calculated as follows:\n   - Phase 1: 56.57 MW * $1700/kW = $96,169,000\n   - Phase 2 (incremental): 22.62 MW * $1700/kW = $38,454,000\n   - Phase 3 (incremental): 22.62 MW * $1700/kW = $38,454,000\n   Total Capex = $96,169,000 + $38,454,000 + $38,454,000 = $173,077,000. This is below the $180M budget ceiling. (Satisfied)\n\n3. CARBON: Blended weighted carbon intensity (weighted by firm capacity) for each phase:\n   - Phase 1: [(56.57 MW * 0.36 * 10 kg/MWh) + (4.65 MW * 0.999 * 386 kg/MWh)] / 25.01 MW = 79.83 kg CO2/MWh. (Satisfied, <= 80 kg CO2/MWh)\n   - Phase 2: [(79.19 MW * 0.36 * 10 kg/MWh) + (6.51 MW * 0.999 * 386 kg/MWh)] / 35.01 MW = 79.86 kg CO2/MWh. (Satisfied, <= 80 kg CO2/MWh)\n   - Phase 3: [(101.81 MW * 0.36 * 10 kg/MWh) + (8.37 MW * 0.999 * 386 kg/MWh)] / 45.01 MW = 79.87 kg CO2/MWh. (Satisfied, <= 80 kg CO2/MWh)\n\n4. RELIABILITY: The system's firm capacity, comprising contributions from wind_bess (CF 0.36) and grid (CF 0.999), consistently meets and slightly exceeds the peak load in each phase. As the grid component, which is critical for firming, has an availability factor of 99.9% (exceeding the 99.0% target), and the overall firm capacity is sufficient, the estimated system uptime meets the reliability target. (Satisfied)",
+      "missing_data": "NOx emission data for 'grid' and 'wind_bess' technologies is not provided in the reference model, preventing validation of the NOx constraint (<= 200 g/MWh)."
+    },
+    "tool_calls": [],
+    "blocked_calls": 0,
+    "total_tokens": 8677,
+    "latency_sec": 127.42206597328186,
+    "error": null,
+    "invalid_recommendation": false,
+    "correct_feasibility": true,
+    "constraint_violations": [],
+    "validators_called": 0,
+    "parse_failed": false
+  },
+  {
+    "case_id": "F-006",
+    "failure_mode": "FEASIBLE",
+    "agent_type": "B2",
+    "gt_feasible": true,
+    "final_recommendation": {
+      "feasible": true,
+      "supply_mix": {
+        "fuel_cell_sofc": 33.0,
+        "grid": 35.0
+      },
+      "reasoning": "A 33 MW fuel_cell_sofc system provides 30.36 MW firm capacity, meeting the 30 MW peak load. Total capex of $99M is within the $150M budget. The carbon target (<=460 kg/MWh) is met by dispatching a blend where the grid provides ~11.9% of the energy, achieving ~459.97 kg/MWh. With fuel cells backed by the 35 MW grid interconnect, system reliability is calculated at 99.992%, exceeding the 99.99% target.",
+      "missing_data": "NOx emissions for specified technologies were not available in the provided Power Pathway Optimizer reference model. The NOx constraint was therefore not validated."
+    },
+    "tool_calls": [],
+    "blocked_calls": 0,
+    "total_tokens": 7223,
+    "latency_sec": 72.64991736412048,
+    "error": null,
+    "invalid_recommendation": true,
+    "correct_feasibility": false,
+    "constraint_violations": [
+      "validate_reliability"
+    ],
+    "validators_called": 0,
+    "parse_failed": false
+  },
+  {
+    "case_id": "IP-001",
+    "failure_mode": "INFEASIBLE_PHASE",
+    "agent_type": "B2",
+    "gt_feasible": false,
+    "final_recommendation": {
+      "feasible": false,
+      "supply_mix": {},
+      "reasoning": "The proposed strategy is not feasible due to a critical capacity shortfall in Phase 2. The campus requires 60 MW of power by 2027, but the grid upgrade to provide a total of 60 MW is not available until 2030. With only the current 30 MW grid capacity available from 2027-2029 and 'grid only' as the allowed supply, the 60 MW load requirement cannot be met during this period. All other constraints (cost, carbon, reliability) would be met if the capacity issue were resolved.",
+      "missing_data": null
+    },
+    "tool_calls": [],
+    "blocked_calls": 0,
+    "total_tokens": 5696,
+    "latency_sec": 29.969334840774536,
+    "error": null,
+    "invalid_recommendation": false,
+    "correct_feasibility": true,
+    "constraint_violations": [],
+    "validators_called": 0,
+    "parse_failed": false
+  },
+  {
+    "case_id": "IP-002",
+    "failure_mode": "INFEASIBLE_PHASE",
+    "agent_type": "B2",
+    "gt_feasible": false,
+    "final_recommendation": {
+      "feasible": false,
+      "supply_mix": {},
+      "reasoning": "The project is fundamentally unfeasible under the given constraints, primarily due to the inability to meet the capacity and reliability requirements for the initial years (2027-2031) where no grid interconnect is available and only `solar_bess` is allowed.\n\n1.  **CAPACITY VIOLATION:** The peak load is 40 MW. From 2027 to 2031, grid supply is 0 MW. The problem statement explicitly states: '12h storage cannot cover 24/7 load at 40 MW scale.' This directly means `solar_bess` alone cannot provide the required 40 MW of firm, dispatchable supply continuously to meet the load. Even by applying the CF formula (40 MW / 0.20 CF = 200 MW nameplate), the inherent limitation described makes continuous firm supply impossible.\n\n2.  **COST VIOLATION:** To even theoretically attempt to meet the 40 MW firm capacity using a 0.20 CF `solar_bess`, a nameplate capacity of 200 MW would be required. The capital expenditure would be 200,000 kW * $2400/kW = $480,000,000, which is $180M over the $300M budget ceiling.\n\n3.  **CARBON (Met):** If capacity and cost were somehow met, `solar_bess` has a carbon intensity of 40 kg/MWh, which is well within the 100 kg CO2/MWh target. However, this is irrelevant given the other violations.\n\n4.  **RELIABILITY VIOLATION:** The inability of `solar_bess` (even with 12h storage) to cover 24/7 load at 40 MW scale without grid support for the first four years (2027-2031) means the system will experience significant downtime, failing to meet the >= 99.9% uptime target.\n\nIn conclusion, the combination of no grid access, restricted technology (only `solar_bess`), and the explicit limitation of `solar_bess` to provide 24/7 continuous firm power at scale makes this project unfeasible. There is no mix of `solar_bess` that can meet the capacity, cost, and reliability requirements.",
+      "missing_data": "NOx emissions data for specified technologies (NOx target <= 50 g/MWh given, but no tech specs provided for NOx to validate against)."
+    },
+    "tool_calls": [],
+    "blocked_calls": 0,
+    "total_tokens": 5606,
+    "latency_sec": 36.02033305168152,
+    "error": null,
+    "invalid_recommendation": false,
+    "correct_feasibility": true,
+    "constraint_violations": [],
+    "validators_called": 0,
+    "parse_failed": false
+  },
+  {
+    "case_id": "IP-003",
+    "failure_mode": "INFEASIBLE_PHASE",
+    "agent_type": "B2",
+    "gt_feasible": false,
+    "final_recommendation": {
+      "feasible": true,
+      "supply_mix": {
+        "grid": 80,
+        "wind_bess": 206.14
+      },
+      "reasoning": "The phased power supply strategy utilizing grid and wind_bess meets all specified constraints.\n\n**1. CAPACITY (Meets Peak Load of 150 MW):**\n*   Grid firm capacity: 80 MW (capped at interconnect limit)\n*   Wind_bess firm capacity: 206.14 MW (nameplate) * 0.36 (CF) = 74.2104 MW\n*   Total firm supply: 80 MW + 74.2104 MW = 154.2104 MW.\n*   This exceeds the 150 MW peak load for Phase 3, ensuring capacity is met.\n\n**2. COST (Within $500M Budget):**\n*   Grid capex: $0\n*   Wind_bess capex: 206.14 MW * $1700/kW = $350,438,000 = $350.44 M.\n*   Total capex: $350.44 M. This is well within the $500 M budget.\n\n**3. CARBON (<= 200 kg CO2/MWh):**\n*   The dispatch strategy for each phase prioritizes grid up to the point where the blended carbon intensity approaches the target, then utilizes wind_bess for the remaining load. \n    *   **Phase 1 (50 MW):** Grid (25.266 MW) + Wind_bess (24.734 MW). Blended carbon: (25.266*386 + 24.734*10) / 50 = 199.996 kg CO2/MWh.\n    *   **Phase 2 (100 MW):** Grid (50.532 MW) + Wind_bess (49.468 MW). Blended carbon: (50.532*386 + 49.468*10) / 100 = 199.990 kg CO2/MWh.\n    *   **Phase 3 (150 MW):** Grid (75.79 MW) + Wind_bess (74.21 MW). Blended carbon: (75.79*386 + 74.21*10) / 150 = 199.984 kg CO2/MWh.\n*   All phases meet the <= 200 kg CO2/MWh target.\n\n**4. RELIABILITY (>= 99.5% Uptime):**\n*   The strategy provides 154.2104 MW of firm capacity for a 150 MW peak load. Grid has a CF of 0.999, and 'wind_bess' implies dispatchability through battery storage, effectively making its firm contribution highly reliable. The excess firm capacity ensures the reliability target is met.\n\n**Phased Deployment:**\n*   **Phase 1 (2027, 50 MW load):** Requires 68.706 MW nameplate wind_bess (24.734 MW firm). This is achievable within the 12-36 month deployment window for wind_bess, starting from now to be online by 2027.\n*   **Phase 2 (2029, 100 MW load):** Requires cumulative 137.411 MW nameplate wind_bess (49.468 MW firm). This is achievable by 2029.\n*   **Phase 3 (2032, 150 MW load):** Requires cumulative 206.14 MW nameplate wind_bess (74.2104 MW firm). This is achievable by 2032.\n",
+      "missing_data": "NOx emission data for grid supply is not provided, so the <= 400 g/MWh NOx constraint cannot be fully validated."
+    },
+    "tool_calls": [],
+    "blocked_calls": 0,
+    "total_tokens": 7941,
+    "latency_sec": 87.30927681922913,
+    "error": null,
+    "invalid_recommendation": true,
+    "correct_feasibility": false,
+    "constraint_violations": [
+      "validate_carbon"
+    ],
+    "validators_called": 0,
+    "parse_failed": false
+  },
+  {
+    "case_id": "IP-004",
+    "failure_mode": "INFEASIBLE_PHASE",
+    "agent_type": "B2",
+    "gt_feasible": false,
+    "final_recommendation": {
+      "feasible": false,
+      "supply_mix": {
+        "grid": 15,
+        "solar_bess": 41.67
+      },
+      "reasoning": "The power supply strategy is **not feasible** as it fails to meet the **Capacity** requirement for Phase 2 (Yrs 2-5, 2027-2030) within the given **Budget**.\n\nHere's a detailed re-validation of all constraints:\n\n1.  **CAPACITY:**\n    *   **Phase 1 (10 MW load, Yrs 0-2 / 2025-2027):** The current 15 MW grid interconnect provides 15 MW * 0.999 (CF) = 14.985 MW of firm capacity. This is sufficient for the 10 MW load. (Feasible)\n    *   **Phase 2 (50 MW load, Yrs 2-5 / 2027-2030):** The grid remains at 15 MW (14.985 MW firm) until 2030. Therefore, an additional 50 MW - 14.985 MW = 35.015 MW of firm capacity is required from other sources (solar_bess).\n        *   Solar_bess has a firm capacity factor (CF) of 0.20. To provide 35.015 MW of firm capacity, a nameplate capacity of 35.015 MW / 0.20 CF = 175.075 MW of solar_bess would be needed.\n        *   However, due to the budget constraint (see 'Cost' below), only 41.67 MW of solar_bess nameplate capacity can be deployed, which provides 41.67 MW * 0.20 CF = 8.33 MW of firm capacity.\n        *   Thus, the total available firm capacity for Phase 2 is 14.985 MW (grid) + 8.33 MW (budget-limited solar_bess) = 23.315 MW.\n        *   This 23.315 MW is significantly less than the required 50 MW peak load. (NOT FEASIBLE for Phase 2)\n    *   **Phase 3 (50 MW load, Yrs 5+ / 2030+):** With the grid upgrade, total grid capacity is 55 MW, providing 55 MW * 0.999 (CF) = 54.945 MW of firm capacity, which exceeds the 50 MW load. (Feasible, but the plan fails earlier).\n\n2.  **COST:**\n    *   The total capital expenditure budget is $100M ($100,000,000).\n    *   To meet the 35.015 MW firm capacity gap in Phase 2, 175.075 MW of solar_bess nameplate capacity is required. At $2400/kW, this would cost 175,075 kW * $2400/kW = $420,180,000.\n    *   This required expenditure ($420.18M) is well over the $100M budget ceiling. (NOT FEASIBLE)\n\n3.  **CARBON:**\n    *   If the maximum possible capacity within budget (15 MW grid firm + 8.33 MW solar_bess firm) were deployed, the blended carbon intensity would be: (14.985 MW * 386 kg/MWh + 8.33 MW * 40 kg/MWh) / (14.985 MW + 8.33 MW) = 262.33 kg/MWh.\n    *   This is well below the target of 400 kg CO2/MWh. (Feasible on carbon, but fails on capacity/cost).\n\n4.  **RELIABILITY:**\n    *   Grid reliability is 99.9%. The addition of solar_bess, which includes battery storage to firm capacity and improve dispatchability, would maintain or enhance overall system uptime. This would comfortably exceed the 99.5% target. (Feasible on reliability, but fails on capacity/cost).\n\nThe plan's failure hinges on the inability to meet the 50 MW load in Phase 2 (2027-2030) with the allowed technologies and budget, before the grid upgrade becomes available.",
+      "missing_data": "NOx emission values for grid and solar_bess technologies are not provided, preventing validation against the <= 600 g/MWh NOx target."
+    },
+    "tool_calls": [],
+    "blocked_calls": 0,
+    "total_tokens": 8816,
+    "latency_sec": 53.971678018569946,
+    "error": null,
+    "invalid_recommendation": false,
+    "correct_feasibility": true,
+    "constraint_violations": [],
+    "validators_called": 0,
+    "parse_failed": false
+  },
+  {
+    "case_id": "IP-005",
+    "failure_mode": "INFEASIBLE_PHASE",
+    "agent_type": "B2",
+    "gt_feasible": false,
+    "final_recommendation": {
+      "feasible": false,
+      "supply_mix": {
+        "grid": 100,
+        "geothermal": 123.46
+      },
+      "reasoning": "The power pathway is not feasible. Phase 1 fails the carbon target (386 kg/MWh actual vs 200 kg/MWh target) as only grid power is available. Phase 2 fails the capacity constraint (100 MW grid vs 120 MW load) because geothermal cannot be deployed within the required timeline. For Phase 3, even if 123.46 MW nameplate geothermal is built to meet capacity and budget, the blended carbon intensity (210.5 kg/MWh) still exceeds the 200 kg/MWh target.",
+      "missing_data": "NOx emissions data for grid and geothermal is not provided in the technology specifications, making it impossible to validate the NOx constraint."
+    },
+    "tool_calls": [],
+    "blocked_calls": 0,
+    "total_tokens": 10286,
+    "latency_sec": 77.96463370323181,
+    "error": null,
+    "invalid_recommendation": false,
+    "correct_feasibility": true,
+    "constraint_violations": [],
+    "validators_called": 0,
+    "parse_failed": false
+  },
+  {
+    "case_id": "BV-001",
+    "failure_mode": "BUDGET_VIOLATION",
+    "agent_type": "B2",
+    "gt_feasible": false,
+    "final_recommendation": {
+      "feasible": false,
+      "supply_mix": {},
+      "reasoning": "The proposed power pathway is not feasible due to simultaneous and significant violations of the NOx, Carbon, and Reliability constraints across all phases, even when considering the Capacity and Cost constraints.\n\nHere's a detailed breakdown of the constraint violations:\n\n1.  **NOx Constraint (<= 100 g/MWh):** This constraint is extremely stringent. Standard `diesel_gen` (the only other dispatchable option besides SMR) typically produces NOx emissions ranging from 6,000 to 12,000 g/MWh, far exceeding the 100 g/MWh target. Even advanced diesel technologies struggle to meet this level. Therefore, `diesel_gen` is effectively disallowed, leaving only `grid` and `smr` as potential supply options.\n\n2.  **Reliability Constraint (>= 99.99% uptime):**\n    *   **Phase 1 (2028-2030, 20 MW load):** SMR cannot be online until 2033 (60-month minimum deployment). With `diesel_gen` disallowed, the only available supply is `grid` power. The `grid` has an estimated uptime of 0.999. This clearly violates the target of >= 0.9999 uptime.\n    *   **Phase 2 (2030-2033, 35 MW load):** Similar to Phase 1, SMR is not yet available, and `diesel_gen` is disallowed. Relying solely on `grid` power (even with its increased capacity from 2029) results in a system uptime of 0.999, violating the 0.9999 target.\n    *   **Phase 3 (2033+, 50 MW load):** Even if SMR is deployed, the grid (with 0.999 uptime) would still be required to supply a significant portion of the 50 MW load (as SMR capacity is limited by budget). Any reliance on the grid for critical load, without full N+1 redundancy provided by an on-site, high-reliability source like SMR for the *entire* load, would cap the overall system reliability at the grid's 0.999, failing the 0.9999 target.\n\n3.  **Carbon Constraint (<= 20 kg CO2/MWh):**\n    *   **Phase 1 & 2:** With only `grid` available, the carbon intensity would be 386 kg/MWh. This is more than 19 times the target of 20 kg CO2/MWh, representing a severe violation.\n    *   **Phase 3 (50 MW load):** The budget of $100M allows for a maximum of 17.857 MW of SMR ($100,000,000 / $5,600/kW). To achieve a blended carbon intensity of 20 kg/MWh using `smr` (12 kg/MWh) and `grid` (386 kg/MWh), the contribution from grid power would be limited to a maximum of approximately 0.02186 times the SMR power. If the maximum SMR capacity (17.857 MW) is deployed, the allowed grid contribution is only ~0.39 MW. This means a total of only ~18.25 MW (17.857 MW SMR + 0.39 MW Grid) could meet the carbon target. This is far less than the 50 MW load required for Phase 3, making it impossible to meet the carbon target for the entire facility.\n\n4.  **Capacity Constraint:** While the grid itself (25 MW in Phase 1, 50 MW from 2029) could technically meet the peak load requirements (20 MW, 35 MW, 50 MW) in terms of raw MW capacity (firm capacity: 24.975 MW, 49.95 MW respectively), this capacity cannot be utilized due to the aforementioned reliability and carbon constraints when relying solely on the grid. Adding the maximum possible SMR (17.857 MW firm capacity 16.78 MW) would boost total firm capacity, but still wouldn't overcome the carbon and reliability issues.\n\n5.  **Cost Constraint ($100M capex):** This constraint limits SMR deployment to 17.857 MW, which is a contributing factor to the carbon violation in Phase 3, as it doesn't allow enough low-carbon generation to offset the grid's emissions."
+    },
+    "tool_calls": [],
+    "blocked_calls": 0,
+    "total_tokens": 7204,
+    "latency_sec": 88.49580478668213,
+    "error": null,
+    "invalid_recommendation": false,
+    "correct_feasibility": true,
+    "constraint_violations": [],
+    "validators_called": 0,
+    "parse_failed": false
+  },
+  {
+    "case_id": "BV-002",
+    "failure_mode": "BUDGET_VIOLATION",
+    "agent_type": "B2",
+    "gt_feasible": false,
+    "final_recommendation": {
+      "feasible": false,
+      "supply_mix": {},
+      "reasoning": "The plan is infeasible because the 80 MW firm capacity requirement for Phase 1 (2026-2033) cannot be met within the $50M budget using the allowed technologies. Providing 80 MW of firm power with diesel_gen (the most cost-effective option at $1125/firm kW) would cost $90M, which significantly exceeds the $50M budget. This violates both the CAPACITY and COST constraints. The RELIABILITY constraint is also implicitly violated as the system cannot deliver the required peak load. Solar_bess is even more expensive per firm kW.",
+      "missing_data": "NOx emissions data for diesel_gen and solar_bess are not provided, preventing validation of the NOx constraint (<= 5000 g/MWh)."
+    },
+    "tool_calls": [],
+    "blocked_calls": 0,
+    "total_tokens": 9194,
+    "latency_sec": 73.85637283325195,
+    "error": null,
+    "invalid_recommendation": false,
+    "correct_feasibility": true,
+    "constraint_violations": [],
+    "validators_called": 0,
+    "parse_failed": false
+  },
+  {
+    "case_id": "BV-003",
+    "failure_mode": "BUDGET_VIOLATION",
+    "agent_type": "B2",
+    "gt_feasible": false,
+    "final_recommendation": {
+      "feasible": false,
+      "supply_mix": {},
+      "reasoning": "A feasible power supply strategy cannot be designed to meet all specified constraints simultaneously. The primary reason is the fundamental conflict between the extremely strict carbon target (<= 15 kg CO2/MWh) and the available budget ($80M), further compounded by the long deployment timeline of the only viable low-carbon technology (SMR).\n\n1.  **CARBON & COST VIOLATION:** To meet the 15 kg/MWh carbon target, Small Modular Reactors (SMRs, at 12 kg/MWh) must provide an overwhelming majority (over 96.5%) of the energy. For Phase 1's 40 MW peak load, this would require approximately 41.07 MW of SMR nameplate capacity. The capital cost for this SMR capacity would be $229.992 million (41.07 MW * $5600/kW), which is nearly triple the $80 million budget. Even if the entire $80 million budget were allocated to SMRs, it would only yield 14.28 MW of SMR nameplate capacity (13.42 MW firm power). To meet the remaining 26.58 MW for Phase 1, the firm would have to rely on the grid (0 capex, 386 kg/MWh). The blended carbon intensity for this mix would be 260.55 kg/MWh, which is far above the 15 kg/MWh target.\n\n2.  **SMR DEPLOYMENT TIMELINE VIOLATION:** SMRs have a deployment timeline of 60-120 months (5-10 years). With a target online year of 2028, SMRs would not be available until 2033 at the earliest (and more likely later), rendering them unusable for Phase 1 (2028-2030) and most of Phase 2 (2030-2033). Without SMRs, reliance on grid (386 kg/MWh) or diesel (790 kg/MWh) would result in immediate and severe carbon target violations.\n\n3.  **RELIABILITY CHALLENGE:** The reliability target of 99.99% is higher than the grid's 99.9% uptime, necessitating highly reliable local generation or backup. SMRs are a highly reliable option but are unavailable/unaffordable as described. Diesel backup would fail the carbon constraint.\n\n4.  **CAPACITY & NOx:** While capacity could technically be met if other constraints were ignored, the other constraints make any such solution infeasible. The NOx constraint would also be challenging with significant diesel usage, but this is secondary to the more fundamental conflicts.",
+      "missing_data": "NOx emission values for diesel_gen, smr, and grid are not provided. If a feasible solution were possible, these values would be needed for a complete assessment of the NOx constraint."
+    },
+    "tool_calls": [],
+    "blocked_calls": 0,
+    "total_tokens": 9922,
+    "latency_sec": 113.280601978302,
+    "error": null,
+    "invalid_recommendation": false,
+    "correct_feasibility": true,
+    "constraint_violations": [],
+    "validators_called": 0,
+    "parse_failed": false
+  },
+  {
+    "case_id": "BV-004",
+    "failure_mode": "BUDGET_VIOLATION",
+    "agent_type": "B2",
+    "gt_feasible": false,
+    "final_recommendation": {
+      "feasible": false,
+      "supply_mix": {
+        "Phase 1 (Yrs 0-2)": {
+          "grid": 10,
+          "fuel_cell_sofc": 1
+        },
+        "Phase 2 (Yrs 2-5)": {
+          "grid": 25,
+          "fuel_cell_sofc": 1
+        },
+        "Phase 3 (Yrs 5+)": {
+          "grid": 25,
+          "fuel_cell_sofc": 1
+        }
+      },
+      "reasoning": "The reliability target of 99.995% uptime cannot be met with the specified technology capacity factors. For a Tier IV equivalent N+N redundant system, with the grid having 0.999 uptime and the fuel cell having a 0.92 capacity factor (representing its uptime), the maximum achievable system uptime is 1 - ((1 - 0.999) * (1 - 0.92)) = 0.99992. This falls short of the 0.99995% target. All other constraints (capacity, cost, and carbon) are met by the proposed phased plan.",
+      "missing_data": "NOx data for allowed technologies."
+    },
+    "tool_calls": [],
+    "blocked_calls": 0,
+    "total_tokens": 15765,
+    "latency_sec": 158.5650429725647,
+    "error": null,
+    "invalid_recommendation": false,
+    "correct_feasibility": true,
+    "constraint_violations": [],
+    "validators_called": 0,
+    "parse_failed": false
+  },
+  {
+    "case_id": "CV-001",
+    "failure_mode": "CARBON_VIOLATION",
+    "agent_type": "B2",
+    "gt_feasible": false,
+    "final_recommendation": {
+      "feasible": false,
+      "supply_mix": {},
+      "reasoning": "The carbon target of 40 kg CO2/MWh cannot be met with the allowed supply options. The grid supply, which is the lowest carbon option available (386 kg/MWh), is still significantly higher than the target. Diesel generation (790 kg/MWh) is even further from the target. No combination of these two sources can achieve the desired carbon intensity. Capacity, cost, and reliability constraints are otherwise achievable.",
+      "missing_data": "NOx emission data for allowed technologies (grid, diesel_gen) is not available in the provided specifications, thus this constraint could not be fully validated."
+    },
+    "tool_calls": [],
+    "blocked_calls": 0,
+    "total_tokens": 5944,
+    "latency_sec": 29.575552701950073,
+    "error": null,
+    "invalid_recommendation": false,
+    "correct_feasibility": true,
+    "constraint_violations": [],
+    "validators_called": 0,
+    "parse_failed": false
+  },
+  {
+    "case_id": "CV-002",
+    "failure_mode": "CARBON_VIOLATION",
+    "agent_type": "B2",
+    "gt_feasible": false,
+    "final_recommendation": {
+      "feasible": false,
+      "supply_mix": {
+        "solar_bess": 2.083,
+        "grid": 60
+      },
+      "reasoning": "The carbon emissions target of <= 100 kg CO2/MWh cannot be met within the budget of $5M. To achieve this target, calculations show that over 82.66% of the total energy supplied would need to come from solar_bess (40 kg/MWh), given the grid's carbon intensity of 386 kg/MWh. With the $5M budget, a maximum of 2.083 MW of solar_bess nameplate capacity can be installed ($5M / $2400/kW). This installed capacity provides 0.4166 MW of firm power (2.083 MW * 0.20 CF). Even for the smallest load (Phase 1, 25 MW), utilizing this maximum solar_bess and covering the remaining load with grid power results in a blended carbon intensity of approximately 380.64 kg/MWh. This is significantly higher than the 100 kg CO2/MWh target. As the load increases in subsequent phases, the proportion of solar_bess contribution to the total load decreases further, pushing the blended carbon intensity even closer to the grid's 386 kg/MWh. To meet the 100 kg/MWh carbon target for a 25 MW load, approximately 103.3 MW of solar_bess nameplate capacity would be required, costing ~$248M, which is far beyond the $5M budget.",
+      "missing_data": "NOx emissions data for grid and solar_bess technologies were not provided in the reference model, thus the NOx constraint could not be explicitly validated."
+    },
+    "tool_calls": [],
+    "blocked_calls": 0,
+    "total_tokens": 8413,
+    "latency_sec": 76.74817419052124,
+    "error": null,
+    "invalid_recommendation": false,
+    "correct_feasibility": true,
+    "constraint_violations": [],
+    "validators_called": 0,
+    "parse_failed": false
+  },
+  {
+    "case_id": "CV-003",
+    "failure_mode": "CARBON_VIOLATION",
+    "agent_type": "B2",
+    "gt_feasible": false,
+    "final_recommendation": {
+      "feasible": false,
+      "supply_mix": {},
+      "reasoning": "A feasible phased power supply strategy cannot be designed under the given constraints, primarily due to the inability to meet the capacity and carbon targets within the budget for Phase 1 (Yrs 0-2) when no grid supply is available.\n\nLet's re-evaluate Phase 1 (Yrs 0-2) requirements:\n*   **Load:** 20 MW\n*   **Grid:** 0 MW available\n*   **Budget (total):** $120M\n*   **Carbon Target:** <= 50 kg CO2/MWh\n*   **Allowed Technologies:** diesel_gen, solar_bess\n\n**1. CAPACITY:** To meet the 20 MW peak load, 20 MW of firm capacity is required.\n    *   Firm capacity = `nameplate_MW * CF`\n    *   `CF_diesel = 0.80`, `CF_solar = 0.20`\n\n**2. CARBON:** To achieve a blended carbon intensity of <= 50 kg CO2/MWh with diesel_gen (790 kg/MWh) and solar_bess (40 kg/MWh), the firm capacity contribution from diesel_gen must be extremely low. Calculation shows that a maximum of approximately 0.267 MW of firm capacity can come from diesel_gen, and the remaining 19.733 MW of firm capacity must come from solar_bess. This translates to:\n    *   Diesel_gen nameplate: `0.267 MW / 0.80 CF = 0.334 MW`\n    *   Solar_bess nameplate: `19.733 MW / 0.20 CF = 98.665 MW`\n\n**3. COST:** Calculating the capital expenditure for this minimum-carbon, capacity-meeting mix:\n    *   Diesel_gen capex: `0.334 MW * $900/kW = $300,600`\n    *   Solar_bess capex: `98.665 MW * $2400/kW = $236,796,000`\n    *   **Total Capex = $237,096,600 (~$237.1M)**\n\nThis total capex significantly **exceeds the $120M budget**, making the plan financially unfeasible for Phase 1 alone, even before considering Phases 2 and 3.\n\n**4. RELIABILITY:** The requirement for 'firm' supply meeting peak load directly addresses a fundamental level of reliability. Since the system cannot be built to meet capacity and carbon constraints within budget, it inherently cannot meet the reliability target as specified by the problem's definition of firm capacity.\n\n**Conclusion:** The combination of a high carbon target, the initial lack of grid availability, and the limited budget makes it impossible to build a compliant power pathway using the allowed technologies for Phase 1. This renders the entire multi-phase project infeasible under the given constraints.",
+      "missing_data": "NOx emissions data for diesel_gen is not provided in the technology specifications, so the NOx constraint (<= 200 g/MWh) cannot be validated. However, the plan is already infeasible due to cost, carbon, and capacity constraints."
+    },
+    "tool_calls": [],
+    "blocked_calls": 0,
+    "total_tokens": 6301,
+    "latency_sec": 83.13422203063965,
+    "error": null,
+    "invalid_recommendation": false,
+    "correct_feasibility": true,
+    "constraint_violations": [],
+    "validators_called": 0,
+    "parse_failed": false
+  },
+  {
+    "case_id": "HT-001",
+    "failure_mode": "HALLUCINATION_TRAP",
+    "agent_type": "B2",
+    "gt_feasible": false,
+    "final_recommendation": {
+      "feasible": true,
+      "supply_mix": {
+        "grid": 20,
+        "wind_bess": 111.167
+      },
+      "reasoning": "A phased power supply strategy was developed utilizing the confirmed grid capacity and wind_bess, chosen for its low carbon intensity and cost-effectiveness among the allowed renewable options. The 'firm supply' for each technology is calculated as its nameplate_MW multiplied by its Capacity Factor (CF). This total firm supply must meet the peak load in each phase.\n\nPhase 1 (Load: 20 MW, Target Online: 2027):\n- Required firm capacity: 20 MW.\n- To meet the carbon target (<= 200 kg/MWh), the grid's effective firm contribution for carbon blending was limited to 9.99 MW (from 20 MW grid connection, CF 0.999).\n- The remaining 10.01 MW of firm capacity is supplied by 27.778 MW of wind_bess (10.01 MW / 0.36 CF).\n- Total firm capacity: 9.99 MW (grid) + 10.01 MW (wind_bess) = 20 MW.\n- Total Capex (cumulative): 27.778 MW * $1700/kW = $47.22M.\n- Blended Carbon Intensity: ((9.99 MW * 386 kg/MWh) + (10.01 MW * 10 kg/MWh)) / 20 MW = 197.81 kg/MWh (meets <= 200 kg/MWh).\n- Deployment time for wind_bess (12-36 months) is feasible for 2027 online target.\n\nPhase 2 (Load: 45 MW, Yrs 2-5):\n- Required firm capacity: 45 MW.\n- The full 20 MW grid connection is utilized, providing 19.98 MW firm capacity.\n- The remaining 25.02 MW of firm capacity (45 MW - 19.98 MW) is supplied by a cumulative 69.5 MW of wind_bess (25.02 MW / 0.36 CF).\n- Total firm capacity: 19.98 MW (grid) + 25.02 MW (wind_bess) = 45 MW.\n- Total Capex (cumulative): 69.5 MW * $1700/kW = $118.15M (within $200M budget).\n- Blended Carbon Intensity: ((19.98 MW * 386 kg/MWh) + (25.02 MW * 10 kg/MWh)) / 45 MW = 176.94 kg/MWh (meets <= 200 kg/MWh).\n\nPhase 3 (Load: 60 MW, Yrs 5+):\n- Required firm capacity: 60 MW.\n- The grid contribution remains at its maximum: 19.98 MW firm capacity.\n- The remaining 40.02 MW of firm capacity (60 MW - 19.98 MW) is supplied by a cumulative 111.167 MW of wind_bess (40.02 MW / 0.36 CF).\n- Total firm capacity: 19.98 MW (grid) + 40.02 MW (wind_bess) = 60 MW.\n- Total Capex (cumulative): 111.167 MW * $1700/kW = $188.98M (within $200M budget).\n- Blended Carbon Intensity: ((19.98 MW * 386 kg/MWh) + (40.02 MW * 10 kg/MWh)) / 60 MW = 135.21 kg/MWh (meets <= 200 kg/MWh).\n\nAll phases meet capacity, cost, and carbon targets. Reliability is met as firm (dispatchable) capacity meets peak load.",
+      "missing_data": "NOx emission data for grid, solar_bess, and wind_bess technologies is not provided in the reference model. Therefore, the NOx constraint of <= 600 g/MWh could not be explicitly validated."
+    },
+    "tool_calls": [],
+    "blocked_calls": 0,
+    "total_tokens": 10923,
+    "latency_sec": 117.49587416648865,
+    "error": null,
+    "invalid_recommendation": true,
+    "correct_feasibility": false,
+    "constraint_violations": [
+      "validate_reliability"
+    ],
+    "validators_called": 0,
+    "parse_failed": false
+  },
+  {
+    "case_id": "HT-002",
+    "failure_mode": "HALLUCINATION_TRAP",
+    "agent_type": "B2",
+    "gt_feasible": null,
+    "final_recommendation": {
+      "feasible": false,
+      "supply_mix": {},
+      "reasoning": "The plan is infeasible primarily due to the budget constraint. Since the grid's confirmed firm capacity is unknown, it cannot be relied upon to meet peak load requirements. This necessitates that all firm capacity come from allowed renewables (wind_bess or solar_bess). Even utilizing the most cost-effective renewable, wind_bess ($1700/kW), to meet the Phase 2 peak load of 50 MW (requiring 138.89 MW nameplate capacity), the total capital expenditure would be $236.11M. This significantly exceeds the $200M budget ceiling, making the project infeasible from Phase 2 onwards.",
+      "missing_data": "Grid interconnect limit (essential for confirmed firm capacity calculation), NOx emissions data for solar_bess, wind_bess, and grid (for NOx constraint validation)."
+    },
+    "tool_calls": [],
+    "blocked_calls": 0,
+    "total_tokens": 9615,
+    "latency_sec": 50.81747508049011,
+    "error": null,
+    "invalid_recommendation": false,
+    "correct_feasibility": null,
+    "constraint_violations": [],
+    "validators_called": 0,
+    "parse_failed": false
+  },
+  {
+    "case_id": "HT-003",
+    "failure_mode": "HALLUCINATION_TRAP",
+    "agent_type": "B2",
+    "gt_feasible": false,
+    "final_recommendation": {
+      "feasible": false,
+      "supply_mix": {},
+      "reasoning": "The proposed strategy is infeasible, as it violates both the budget and carbon intensity constraints in Phase 1. Even considering only Phase 1 (Yrs 0-2), which requires 20 MW of firm capacity:\n\n1.  **CAPACITY:** The grid provides 10 MW (its maximum confirmed limit). The remaining 10 MW of firm capacity must come from solar_bess. With a regional Capacity Factor (CF) of 0.22, this requires a nameplate solar_bess capacity of 10 MW / 0.22 = 45.45 MW. This configuration (10 MW grid + 45.45 MW nameplate solar_bess) would meet the 20 MW firm capacity requirement.\n\n2.  **COST:** The capital expenditure for the required solar_bess would be 45.45 MW * $2400/kW = $109,080,000 ($109.08M). This significantly exceeds the total budget ceiling of $55M.\n\n3.  **CARBON:** The blended carbon intensity for this mix would be calculated as:\n    ((10 MW firm grid * 386 kg/MWh) + (10 MW firm solar_bess * 40 kg/MWh)) / 20 MW firm total\n    = (3860 + 400) / 20 = 4260 / 20 = 213 kg CO2/MWh. This is well above the target of 80 kg CO2/MWh.\n\n4.  **RELIABILITY:** While the firm capacity requirement is met, specific uptime data for the firm component of solar_bess is not provided, making precise validation difficult. However, this is a moot point given the other violations.\n\nSince Phase 1 alone is infeasible due to both cost and carbon, no strategy can be recommended under the given constraints and allowed technologies.",
+      "missing_data": "NOx emissions data for 'grid' and 'solar_bess' are not provided in the technology specifications, making it impossible to validate the NOx constraint."
+    },
+    "tool_calls": [],
+    "blocked_calls": 0,
+    "total_tokens": 4711,
+    "latency_sec": 59.3534369468689,
+    "error": null,
+    "invalid_recommendation": false,
+    "correct_feasibility": true,
+    "constraint_violations": [],
+    "validators_called": 0,
+    "parse_failed": false
+  },
+  {
+    "case_id": "HT-004",
+    "failure_mode": "HALLUCINATION_TRAP",
+    "agent_type": "B2",
+    "gt_feasible": false,
+    "final_recommendation": {
+      "feasible": true,
+      "supply_mix": {
+        "grid": 54.8,
+        "wind_bess": 45.2,
+        "solar_bess": 0.0
+      },
+      "reasoning": "The phased strategy ensures firm capacity meets peak load in all phases. For Phase 1 (40 MW load), 21.9 MW Grid and 18.1 MW Wind_BESS are deployed, respecting the 40 MW grid limit. For Phase 2 (80 MW load), the mix expands to 43.8 MW Grid and 36.2 MW Wind_BESS, respecting the 100 MW grid limit. For Phase 3 (100 MW load), the final mix is 54.8 MW Grid and 45.2 MW Wind_BESS, also within the 100 MW grid limit. The total capital expenditure for 45.2 MW of wind_bess is $76.84M (45.2 MW * $1700/kW), which is well within the $300M budget. The blended weighted carbon intensity for the final 100 MW mix is calculated as 299.999 kg/MWh, meeting the <= 300 kg/MWh target. Reliability is assumed met by relying on grid supply (CF=0.999) and firm, dispatchable BESS-backed wind capacity. Wind_bess was prioritized over solar_bess due to its lower Capex ($1700/kW vs $2400/kW) and lower carbon intensity (10 kg/MWh vs 40 kg/MWh). Deployment times for wind_bess (12-36 months) allow for the phased ramp-up. The NOx constraint is assumed implicitly met as specific NOx data for the allowed technologies was not provided and they are generally low-NOx emitters.",
+      "missing_data": "NOx impact for allowed technologies was not provided in the tech specs, so this constraint is assumed to be implicitly satisfied or not directly calculated."
+    },
+    "tool_calls": [],
+    "blocked_calls": 0,
+    "total_tokens": 14478,
+    "latency_sec": 133.59229707717896,
+    "error": null,
+    "invalid_recommendation": true,
+    "correct_feasibility": false,
+    "constraint_violations": [
+      "validate_capacity",
+      "validate_reliability"
+    ],
+    "validators_called": 0,
+    "parse_failed": false
+  },
+  {
+    "case_id": "F-001",
+    "failure_mode": "FEASIBLE",
+    "agent_type": "G1",
+    "gt_feasible": true,
+    "final_recommendation": {
+      "feasible": true,
+      "supply_mix": {
+        "grid": 35.24,
+        "wind_bess": 30,
+        "diesel_gen": 5
+      },
+      "reasoning": "The proposed power supply strategy is feasible and meets all constraints. The plan involves a phased approach to match load growth, maximizing the use of grid power supplemented by wind+BESS for low-carbon energy and diesel generators for firm capacity and reliability.\n\n**Phased Implementation:**\n*   **Phase 1 (Yrs 0-2, 30 MW load):** Install 30 MW of wind_bess and 5 MW of diesel_gen to meet initial carbon and reliability targets. Supplement with 15.216 MW of grid power. Total firm capacity: 30.00 MW.\n*   **Phase 2 (Yrs 2-5, 45 MW load):** Increase grid power to 30.231 MW to meet the rising load. Total firm capacity: 45.00 MW.\n*   **Phase 3 (Yrs 5+, 50 MW load):** Increase grid power to 35.24 MW to meet the final peak load. Total firm capacity: 50.00 MW.\n\n**Constraint Satisfaction (based on Phase 3 final state):**\n*   **CAPACITY:** The final supply mix provides 50.0 MW of firm capacity, meeting the 50 MW peak load. Grid usage (35.24 MW) is well within the 120 MW available after the 2028 upgrade.\n*   **COST:** Total capital expenditure is $55.5 million (30 MW wind_bess @ $1700/kW + 5 MW diesel_gen @ $900/kW), which is significantly below the $200 million budget ceiling.\n*   **CARBON:** The blended carbon intensity is 337.1 kg CO2/MWh, achieving the target of <= 350 kg CO2/MWh.\n*   **RELIABILITY:** The estimated system uptime is 99.8204%, exceeding the 99.5% reliability target.",
+      "missing_data": null
+    },
+    "tool_calls": [
+      {
+        "tool": "validate_capacity",
+        "status": "FAIL",
+        "msg": "Capacity SHORTFALL: firm supply 50.0 MW < peak load 50.0 MW (deficit 0.0 MW)."
+      },
+      {
+        "tool": "validate_cost",
+        "status": "PASS",
+        "msg": "Cost OK: $55.5M \u2264 $200.0M budget ($144.5M headroom)."
+      },
+      {
+        "tool": "validate_carbon",
+        "status": "PASS",
+        "msg": "Carbon OK: 337.1 kg/MWh \u2264 350.0 kg/MWh target."
+      },
+      {
+        "tool": "validate_reliability",
+        "status": "PASS",
+        "msg": "Reliability OK: 99.8204% \u2265 99.5% target."
+      },
+      {
+        "tool": "validate_capacity",
+        "status": "PASS",
+        "msg": "Capacity OK: 50.0 MW firm \u2265 50.0 MW peak (margin 0.0 MW)."
+      },
+      {
+        "tool": "validate_cost",
+        "status": "PASS",
+        "msg": "Cost OK: $55.5M \u2264 $200.0M budget ($144.5M headroom)."
+      },
+      {
+        "tool": "validate_carbon",
+        "status": "PASS",
+        "msg": "Carbon OK: 337.1 kg/MWh \u2264 350.0 kg/MWh target."
+      },
+      {
+        "tool": "validate_reliability",
+        "status": "PASS",
+        "msg": "Reliability OK: 99.8204% \u2265 99.5% target."
+      }
+    ],
+    "blocked_calls": 0,
+    "total_tokens": 21072,
+    "latency_sec": 46.65044403076172,
+    "error": null,
+    "invalid_recommendation": false,
+    "correct_feasibility": true,
+    "constraint_violations": [],
+    "validators_called": 4,
+    "parse_failed": false
+  },
+  {
+    "case_id": "F-002",
+    "failure_mode": "FEASIBLE",
+    "agent_type": "G1",
+    "gt_feasible": true,
+    "final_recommendation": {
+      "feasible": true,
+      "supply_mix": {
+        "grid": 4,
+        "wind_bess": 49
+      },
+      "reasoning": "The recommended power supply strategy utilizes a mix of grid and wind_bess to meet the data center's phased load growth while adhering to all specified constraints. The plan provides a total firm capacity of 21.6 MW, which is sufficient for the peak load of 20 MW in Phase 3. The chosen mix of 4 MW grid and 49 MW wind_bess ensures a blended carbon intensity of 79.4 kg CO2/MWh, falling below the 80 kg CO2/MWh target. The total capital expenditure is $83.3M, well within the $150M budget. Estimated system uptime is 99.41%, exceeding the 99.0% reliability target. The wind_bess deployment schedule (12-36 months) allows for the necessary capacity to be online by 2026. The 4 MW grid import is always within the available grid interconnect limits for all phases.",
+      "missing_data": "The NOx emission constraint (<= 200 g/MWh) could not be explicitly validated as the provided tools do not have a function for NOx validation, nor are NOx emission values for technologies available in the provided specifications."
+    },
+    "tool_calls": [
+      {
+        "tool": "get_case_info",
+        "status": "INFO",
+        "msg": "Case F-002 loaded."
+      },
+      {
+        "tool": "validate_capacity",
+        "status": "PASS",
+        "msg": "Capacity OK: 21.6 MW firm \u2265 20.0 MW peak (margin 1.6 MW)."
+      },
+      {
+        "tool": "validate_cost",
+        "status": "PASS",
+        "msg": "Cost OK: $83.3M \u2264 $150.0M budget ($66.7M headroom)."
+      },
+      {
+        "tool": "validate_carbon",
+        "status": "PASS",
+        "msg": "Carbon OK: 79.4 kg/MWh \u2264 80.0 kg/MWh target."
+      },
+      {
+        "tool": "validate_reliability",
+        "status": "PASS",
+        "msg": "Reliability OK: 99.4108% \u2265 99.0% target."
+      },
+      {
+        "tool": "submit_final_recommendation",
+        "status": "ACCEPTED"
+      }
+    ],
+    "blocked_calls": 0,
+    "total_tokens": 28868,
+    "latency_sec": 29.026451110839844,
+    "error": null,
+    "invalid_recommendation": false,
+    "correct_feasibility": true,
+    "constraint_violations": [],
+    "validators_called": 4,
+    "parse_failed": false
+  },
+  {
+    "case_id": "F-003",
+    "failure_mode": "FEASIBLE",
+    "agent_type": "G1",
+    "gt_feasible": true,
+    "final_recommendation": {
+      "feasible": false,
+      "supply_mix": {},
+      "reasoning": "The combination of a very low carbon target (30 kg/MWh) and a high reliability target (>= 99.99%) makes it impossible to design a feasible phased power supply strategy. SMR, a low-carbon and high-reliability option, is not available for early phases due to long deployment times. Relying on Wind_BESS alone for low carbon results in insufficient reliability, and introducing enough grid power to boost reliability pushes the blended carbon intensity above the target for all phases.",
+      "missing_data": "NOx emissions constraint (<= 100 g/MWh) could not be validated with the provided tools."
+    },
+    "tool_calls": [
+      {
+        "tool": "get_case_info",
+        "status": "INFO",
+        "msg": "Case F-003 loaded."
+      },
+      {
+        "tool": "validate_capacity",
+        "status": "FAIL",
+        "msg": "Capacity SHORTFALL: firm supply 100.0 MW < peak load 100.0 MW (deficit 0.0 MW)."
+      },
+      {
+        "tool": "validate_cost",
+        "status": "PASS",
+        "msg": "Cost OK: $509.2M \u2264 $900.0M budget ($390.8M headroom)."
+      },
+      {
+        "tool": "validate_carbon",
+        "status": "PASS",
+        "msg": "Carbon OK: 10.6 kg/MWh \u2264 30.0 kg/MWh target."
+      },
+      {
+        "tool": "validate_reliability",
+        "status": "FAIL",
+        "msg": "Reliability SHORTFALL: 99.5040% < 99.99% target."
+      },
+      {
+        "tool": "validate_capacity",
+        "status": "PASS",
+        "msg": "Capacity OK: 100.0 MW firm \u2265 100.0 MW peak (margin 0.0 MW)."
+      },
+      {
+        "tool": "validate_cost",
+        "status": "PASS",
+        "msg": "Cost OK: $548.0M \u2264 $900.0M budget ($352.0M headroom)."
+      },
+      {
+        "tool": "validate_carbon",
+        "status": "PASS",
+        "msg": "Carbon OK: 30.0 kg/MWh \u2264 30.0 kg/MWh target."
+      },
+      {
+        "tool": "validate_reliability",
+        "status": "FAIL",
+        "msg": "Reliability SHORTFALL: 99.8733% < 99.99% target."
+      }
+    ],
+    "blocked_calls": 0,
+    "total_tokens": 34196,
+    "latency_sec": 88.86375188827515,
+    "error": null,
+    "invalid_recommendation": true,
+    "correct_feasibility": false,
+    "constraint_violations": [],
+    "validators_called": 4,
+    "parse_failed": false
+  },
+  {
+    "case_id": "F-004",
+    "failure_mode": "FEASIBLE",
+    "agent_type": "G1",
+    "gt_feasible": true,
+    "final_recommendation": {
+      "feasible": true,
+      "supply_mix": {
+        "grid": 10.844178,
+        "solar_bess": 20.833333
+      },
+      "reasoning": "The proposed supply mix of 10.844178 MW of grid capacity and 20.833333 MW nameplate of solar_bess provides 15 MW of firm capacity, meeting the peak load for Phase 3 (15 MW). This also covers Phase 1 (8 MW) and Phase 2 (12 MW). The total capital expenditure is $50M, which is exactly the budget limit. The blended carbon intensity is 289.9 kg/MWh, well below the 350 kg/MWh target. The estimated system uptime is 99.7611%, exceeding the 99.5% reliability target. The grid import of 10.844178 MW is within the confirmed 30 MW grid interconnect limit.",
+      "missing_data": "The NOx constraint (<= 400 g/MWh) could not be validated as NOx emissions data for 'grid' and 'solar_bess' were not provided in the technology specifications or available through the get_case_info tool."
+    },
+    "tool_calls": [
+      {
+        "tool": "get_case_info",
+        "status": "INFO",
+        "msg": "Case F-004 loaded."
+      },
+      {
+        "tool": "validate_capacity",
+        "status": "FAIL",
+        "msg": "Capacity SHORTFALL: firm supply 15.0 MW < peak load 15.0 MW (deficit 0.0 MW)."
+      },
+      {
+        "tool": "validate_capacity",
+        "status": "PASS",
+        "msg": "Capacity OK: 15.0 MW firm \u2265 15.0 MW peak (margin 0.0 MW)."
+      },
+      {
+        "tool": "validate_cost",
+        "status": "PASS",
+        "msg": "Cost OK: $50.0M \u2264 $50.0M budget ($0.0M headroom)."
+      },
+      {
+        "tool": "validate_carbon",
+        "status": "PASS",
+        "msg": "Carbon OK: 289.9 kg/MWh \u2264 350.0 kg/MWh target."
+      },
+      {
+        "tool": "validate_reliability",
+        "status": "PASS",
+        "msg": "Reliability OK: 99.7611% \u2265 99.5% target."
+      },
+      {
+        "tool": "submit_final_recommendation",
+        "status": "ACCEPTED"
+      }
+    ],
+    "blocked_calls": 0,
+    "total_tokens": 37889,
+    "latency_sec": 31.888784170150757,
+    "error": null,
+    "invalid_recommendation": false,
+    "correct_feasibility": true,
+    "constraint_violations": [],
+    "validators_called": 4,
+    "parse_failed": false
+  },
+  {
+    "case_id": "F-005",
+    "failure_mode": "FEASIBLE",
+    "agent_type": "G1",
+    "gt_feasible": true,
+    "final_recommendation": {
+      "feasible": true,
+      "supply_mix": {
+        "grid": 6.9,
+        "wind_bess": 105.88
+      },
+      "reasoning": "The strategy involves a phased deployment of wind_bess capacity, complemented by grid supply, to meet increasing load demands while adhering to budget, carbon, and reliability targets. \n\nPhase 1 (Yrs 0-2, 25 MW load): Deploy 56.51 MW of wind_bess and utilize 4.66 MW of grid to meet the 25 MW firm capacity demand. This phase adheres to the 50 MW grid limit.\nPhase 2 (Yrs 2-5, 35 MW load): Increase wind_bess to 79.11 MW and grid to 6.53 MW to meet the 35 MW firm capacity demand. This phase benefits from an increased grid limit of 70 MW starting in 2028.\nPhase 3 (Yrs 5+, 45 MW load): Further increase wind_bess to 105.88 MW (maximum allowed by budget) and grid to 6.90 MW to meet the final 45 MW firm capacity demand. This final configuration ensures the total capital expenditure does not exceed $180M, the blended carbon intensity remains below 80 kg CO2/MWh, and the estimated system uptime is above 99.0%. All constraints are met.",
+      "missing_data": null
+    },
+    "tool_calls": [
+      {
+        "tool": "validate_capacity",
+        "status": "PASS",
+        "msg": "Capacity OK: 45.0 MW firm \u2265 45.0 MW peak (margin 0.0 MW)."
+      },
+      {
+        "tool": "validate_cost",
+        "status": "PASS",
+        "msg": "Cost OK: $180.0M \u2264 $180.0M budget ($0.0M headroom)."
+      },
+      {
+        "tool": "validate_carbon",
+        "status": "PASS",
+        "msg": "Carbon OK: 67.6 kg/MWh \u2264 80.0 kg/MWh target."
+      },
+      {
+        "tool": "validate_reliability",
+        "status": "PASS",
+        "msg": "Reliability OK: 99.3919% \u2265 99.0% target."
+      }
+    ],
+    "blocked_calls": 0,
+    "total_tokens": 7976,
+    "latency_sec": 26.877525806427002,
+    "error": null,
+    "invalid_recommendation": false,
+    "correct_feasibility": true,
+    "constraint_violations": [],
+    "validators_called": 4,
+    "parse_failed": false
+  },
+  {
+    "case_id": "F-006",
+    "failure_mode": "FEASIBLE",
+    "agent_type": "G1",
+    "gt_feasible": true,
+    "final_recommendation": null,
+    "tool_calls": [
+      {
+        "tool": "get_case_info",
+        "status": "INFO",
+        "msg": "Case F-006 loaded."
+      },
+      {
+        "tool": "validate_capacity",
+        "status": "PASS",
+        "msg": "Capacity OK: 30.4 MW firm \u2265 30.0 MW peak (margin 0.4 MW)."
+      },
+      {
+        "tool": "validate_cost",
+        "status": "PASS",
+        "msg": "Cost OK: $60.0M \u2264 $150.0M budget ($90.0M headroom)."
+      },
+      {
+        "tool": "validate_carbon",
+        "status": "PASS",
+        "msg": "Carbon OK: 436.9 kg/MWh \u2264 460.0 kg/MWh target."
+      },
+      {
+        "tool": "validate_reliability",
+        "status": "FAIL",
+        "msg": "Reliability SHORTFALL: 99.9803% < 99.99% target."
+      },
+      {
+        "tool": "validate_capacity",
+        "status": "FAIL",
+        "msg": "Capacity SHORTFALL: firm supply 30.0 MW < peak load 30.0 MW (deficit 0.0 MW)."
+      },
+      {
+        "tool": "validate_cost",
+        "status": "PASS",
+        "msg": "Cost OK: $75.0M \u2264 $150.0M budget ($75.0M headroom)."
+      },
+      {
+        "tool": "validate_carbon",
+        "status": "PASS",
+        "msg": "Carbon OK: 450.4 kg/MWh \u2264 460.0 kg/MWh target."
+      },
+      {
+        "tool": "validate_reliability",
+        "status": "FAIL",
+        "msg": "Reliability SHORTFALL: 99.9883% < 99.99% target."
+      },
+      {
+        "tool": "validate_capacity",
+        "status": "PASS",
+        "msg": "Capacity OK: 30.4 MW firm \u2265 30.0 MW peak (margin 0.4 MW)."
+      },
+      {
+        "tool": "validate_cost",
+        "status": "PASS",
+        "msg": "Cost OK: $72.0M \u2264 $150.0M budget ($78.0M headroom)."
+      },
+      {
+        "tool": "validate_carbon",
+        "status": "PASS",
+        "msg": "Carbon OK: 425.5 kg/MWh \u2264 460.0 kg/MWh target."
+      },
+      {
+        "tool": "validate_reliability",
+        "status": "FAIL",
+        "msg": "Reliability SHORTFALL: 99.9638% < 99.99% target."
+      },
+      {
+        "tool": "validate_capacity",
+        "status": "PASS",
+        "msg": "Capacity OK: 35.6 MW firm \u2265 30.0 MW peak (margin 5.6 MW)."
+      },
+      {
+        "tool": "validate_cost",
+        "status": "PASS",
+        "msg": "Cost OK: $90.0M \u2264 $150.0M budget ($60.0M headroom)."
+      },
+      {
+        "tool": "validate_carbon",
+        "status": "PASS",
+        "msg": "Carbon OK: 451.1 kg/MWh \u2264 460.0 kg/MWh target."
+      },
+      {
+        "tool": "validate_reliability",
+        "status": "FAIL",
+        "msg": "Reliability SHORTFALL: 99.9888% < 99.99% target."
+      },
+      {
+        "tool": "validate_capacity",
+        "status": "PASS",
+        "msg": "Capacity OK: 40.0 MW firm \u2265 30.0 MW peak (margin 10.0 MW)."
+      },
+      {
+        "tool": "validate_cost",
+        "status": "PASS",
+        "msg": "Cost OK: $75.0M \u2264 $150.0M budget ($75.0M headroom)."
+      },
+      {
+        "tool": "validate_carbon",
+        "status": "PASS",
+        "msg": "Carbon OK: 434.3 kg/MWh \u2264 460.0 kg/MWh target."
+      },
+      {
+        "tool": "validate_reliability",
+        "status": "FAIL",
+        "msg": "Reliability SHORTFALL: 99.9788% < 99.99% target."
+      },
+      {
+        "tool": "validate_capacity",
+        "status": "PASS",
+        "msg": "Capacity OK: 37.6 MW firm \u2265 30.0 MW peak (margin 7.6 MW)."
+      },
+      {
+        "tool": "validate_cost",
+        "status": "PASS",
+        "msg": "Cost OK: $90.0M \u2264 $150.0M budget ($60.0M headroom)."
+      },
+      {
+        "tool": "validate_carbon",
+        "status": "PASS",
+        "msg": "Carbon OK: 447.7 kg/MWh \u2264 460.0 kg/MWh target."
+      },
+      {
+        "tool": "validate_reliability",
+        "status": "FAIL",
+        "msg": "Reliability SHORTFALL: 99.9867% < 99.99% target."
+      },
+      {
+        "tool": "validate_capacity",
+        "status": "PASS",
+        "msg": "Capacity OK: 61.3 MW firm \u2265 30.0 MW peak (margin 31.3 MW)."
+      },
+      {
+        "tool": "validate_cost",
+        "status": "PASS",
+        "msg": "Cost OK: $99.0M \u2264 $150.0M budget ($51.0M headroom)."
+      },
+      {
+        "tool": "validate_carbon",
+        "status": "PASS",
+        "msg": "Carbon OK: 427.6 kg/MWh \u2264 460.0 kg/MWh target."
+      },
+      {
+        "tool": "validate_reliability",
+        "status": "FAIL",
+        "msg": "Reliability SHORTFALL: 99.9748% < 99.99% target."
+      },
+      {
+        "tool": "validate_capacity",
+        "status": "PASS",
+        "msg": "Capacity OK: 30.2 MW firm \u2265 30.0 MW peak (margin 0.2 MW)."
+      },
+      {
+        "tool": "validate_cost",
+        "status": "PASS",
+        "msg": "Cost OK: $66.0M \u2264 $150.0M budget ($84.0M headroom)."
+      },
+      {
+        "tool": "validate_carbon",
+        "status": "PASS",
+        "msg": "Carbon OK: 442.2 kg/MWh \u2264 460.0 kg/MWh target."
+      },
+      {
+        "tool": "validate_reliability",
+        "status": "FAIL",
+        "msg": "Reliability SHORTFALL: 99.9835% < 99.99% target."
+      },
+      {
+        "tool": "validate_capacity",
+        "status": "PASS",
+        "msg": "Capacity OK: 35.4 MW firm \u2265 30.0 MW peak (margin 5.4 MW)."
+      },
+      {
+        "tool": "validate_cost",
+        "status": "PASS",
+        "msg": "Cost OK: $99.0M \u2264 $150.0M budget ($51.0M headroom)."
+      },
+      {
+        "tool": "validate_carbon",
+        "status": "PASS",
+        "msg": "Carbon OK: 458.1 kg/MWh \u2264 460.0 kg/MWh target."
+      },
+      {
+        "tool": "validate_reliability",
+        "status": "PASS",
+        "msg": "Reliability OK: 99.9929% \u2265 99.99% target."
+      }
+    ],
+    "blocked_calls": 0,
+    "total_tokens": 101399,
+    "latency_sec": 72.98658299446106,
+    "error": null,
+    "invalid_recommendation": false,
+    "correct_feasibility": null,
+    "constraint_violations": [],
+    "validators_called": 4,
+    "parse_failed": true
+  },
+  {
+    "case_id": "IP-001",
+    "failure_mode": "INFEASIBLE_PHASE",
+    "agent_type": "G1",
+    "gt_feasible": false,
+    "final_recommendation": {
+      "feasible": false,
+      "supply_mix": {
+        "grid": 60
+      },
+      "reasoning": "The proposed strategy is infeasible because the grid capacity upgrade to 60 MW is not available until 2030, while Phase 2 load requires 60 MW starting in 2027. With only grid supply allowed, there is a 30 MW shortfall between 2027 and 2029. Additionally, reliability validation reported a shortfall even though the estimated reliability is 99.9%, which matches the target.",
+      "missing_data": "NOx constraint could not be validated as there is no tool function to check it."
+    },
+    "tool_calls": [
+      {
+        "tool": "get_case_info",
+        "status": "INFO",
+        "msg": "Case IP-001 loaded."
+      },
+      {
+        "tool": "validate_capacity",
+        "status": "FAIL",
+        "msg": "Grid allocation 60 MW exceeds confirmed grid capacity 30 MW."
+      },
+      {
+        "tool": "validate_cost",
+        "status": "PASS",
+        "msg": "Cost OK: $0.0M \u2264 $200.0M budget ($200.0M headroom)."
+      },
+      {
+        "tool": "validate_carbon",
+        "status": "PASS",
+        "msg": "Carbon OK: 386.0 kg/MWh \u2264 400.0 kg/MWh target."
+      },
+      {
+        "tool": "validate_reliability",
+        "status": "FAIL",
+        "msg": "Reliability SHORTFALL: 99.9000% < 99.9% target."
+      },
+      {
+        "tool": "submit_final_recommendation",
+        "status": "ACCEPTED"
+      }
+    ],
+    "blocked_calls": 0,
+    "total_tokens": 18493,
+    "latency_sec": 16.32538604736328,
+    "error": null,
+    "invalid_recommendation": false,
+    "correct_feasibility": true,
+    "constraint_violations": [],
+    "validators_called": 4,
+    "parse_failed": false
+  },
+  {
+    "case_id": "IP-002",
+    "failure_mode": "INFEASIBLE_PHASE",
+    "agent_type": "G1",
+    "gt_feasible": false,
+    "final_recommendation": {
+      "feasible": false,
+      "supply_mix": null,
+      "reasoning": "The proposed power supply strategy is not feasible due to multiple unmet constraints. For Phases 1 (Yrs 0-2) and 2 (Yrs 2-5), there is no grid interconnect available, and the local ordinance restricts supply to only solar_bess. The problem explicitly states that '12h storage cannot cover 24/7 load at 40 MW scale' with solar_bess, implying it cannot provide the firm 40 MW capacity required. Even if we consider the maximum solar_bess capacity deployable within the $300M budget (125 MW), it only provides 25 MW of firm capacity (125 MW * 0.20 CF), falling short of the 40 MW peak load. This also leads to a reliability shortfall (99.4% vs 99.9% target).\n\nFor Phase 3 (Yrs 5+), while grid interconnect becomes available, simply using grid supply (40 MW) would violate the carbon intensity target (386 kg CO2/MWh vs 100 kg CO2/MWh target). A blend with solar_bess would be required, but given the initial capacity and reliability issues, a feasible overall phased strategy is not possible under the given constraints.",
+      "missing_data": null
+    },
+    "tool_calls": [
+      {
+        "tool": "validate_capacity",
+        "status": "FAIL",
+        "msg": "Capacity SHORTFALL: firm supply 25.0 MW < peak load 40.0 MW (deficit 15.0 MW)."
+      },
+      {
+        "tool": "validate_cost",
+        "status": "PASS",
+        "msg": "Cost OK: $300.0M \u2264 $300.0M budget ($0.0M headroom)."
+      },
+      {
+        "tool": "validate_carbon",
+        "status": "PASS",
+        "msg": "Carbon OK: 40.0 kg/MWh \u2264 100.0 kg/MWh target."
+      },
+      {
+        "tool": "validate_reliability",
+        "status": "FAIL",
+        "msg": "Reliability SHORTFALL: 99.4000% < 99.9% target."
+      }
+    ],
+    "blocked_calls": 0,
+    "total_tokens": 7183,
+    "latency_sec": 31.84000015258789,
+    "error": null,
+    "invalid_recommendation": false,
+    "correct_feasibility": true,
+    "constraint_violations": [],
+    "validators_called": 4,
+    "parse_failed": false
+  },
+  {
+    "case_id": "IP-003",
+    "failure_mode": "INFEASIBLE_PHASE",
+    "agent_type": "G1",
+    "gt_feasible": false,
+    "final_recommendation": {
+      "feasible": true,
+      "supply_mix": {
+        "grid": 80,
+        "solar_bess": 30,
+        "wind_bess": 204
+      },
+      "reasoning": "The supply mix provides 159.36 MW of firm capacity, exceeding the 150 MW peak load. Total capital expenditure is $418.8M, well within the $500M budget. The blended carbon intensity is 199.7 kg/MWh, meeting the 200 kg/MWh target. Estimated system reliability is 99.6047%, surpassing the 99.5% target.",
+      "missing_data": null
+    },
+    "tool_calls": [
+      {
+        "tool": "get_case_info",
+        "status": "INFO",
+        "msg": "Case IP-003 loaded."
+      },
+      {
+        "tool": "validate_capacity",
+        "status": "PASS",
+        "msg": "Capacity OK: 159.4 MW firm \u2265 150.0 MW peak (margin 9.4 MW)."
+      },
+      {
+        "tool": "validate_cost",
+        "status": "PASS",
+        "msg": "Cost OK: $418.8M \u2264 $500.0M budget ($81.2M headroom)."
+      },
+      {
+        "tool": "validate_carbon",
+        "status": "PASS",
+        "msg": "Carbon OK: 199.7 kg/MWh \u2264 200.0 kg/MWh target."
+      },
+      {
+        "tool": "validate_reliability",
+        "status": "PASS",
+        "msg": "Reliability OK: 99.6047% \u2265 99.5% target."
+      },
+      {
+        "tool": "submit_final_recommendation",
+        "status": "ACCEPTED"
+      }
+    ],
+    "blocked_calls": 0,
+    "total_tokens": 53897,
+    "latency_sec": 47.57422709465027,
+    "error": null,
+    "invalid_recommendation": false,
+    "correct_feasibility": false,
+    "constraint_violations": [],
+    "validators_called": 4,
+    "parse_failed": false
+  },
+  {
+    "case_id": "IP-004",
+    "failure_mode": "INFEASIBLE_PHASE",
+    "agent_type": "G1",
+    "gt_feasible": false,
+    "final_recommendation": {
+      "feasible": false,
+      "supply_mix": {
+        "grid": 15,
+        "solar_bess": 175
+      },
+      "reasoning": "The proposed power pathway is not feasible. To meet the 50 MW load required in Phase 2 (2027), with the grid limited to 15 MW, an additional 35 MW of firm capacity is needed. This necessitates approximately 175 MW of nameplate solar_bess capacity (35 MW / 0.20 CF). This solution fails on two critical constraints:\n1.  **COST:** The capital expenditure for 175 MW of solar_bess would be $420M, significantly exceeding the $100M budget by $320M.\n2.  **CAPACITY:** Even with 175 MW of solar_bess and 15 MW grid, the total firm capacity of 49.98 MW falls slightly short of the 50 MW peak load. Increasing solar_bess to meet the exact 50 MW would further exacerbate the cost issue. Therefore, it is not possible to meet the required capacity within the budget using the allowed technologies.",
+      "missing_data": "NOx emission data for technologies (grid, solar_bess) was not available in the provided specs, making it impossible to validate the NOx <= 600 g/MWh constraint."
+    },
+    "tool_calls": [
+      {
+        "tool": "validate_cost",
+        "status": "FAIL",
+        "msg": "Budget EXCEEDED: $420.0M > $100.0M budget (over by $320.0M)."
+      },
+      {
+        "tool": "validate_capacity",
+        "status": "FAIL",
+        "msg": "Capacity SHORTFALL: firm supply 50.0 MW < peak load 50.0 MW (deficit 0.0 MW)."
+      },
+      {
+        "tool": "validate_carbon",
+        "status": "PASS",
+        "msg": "Carbon OK: 143.7 kg/MWh \u2264 400.0 kg/MWh target."
+      },
+      {
+        "tool": "validate_reliability",
+        "status": "PASS",
+        "msg": "Reliability OK: 99.5499% \u2265 99.5% target."
+      }
+    ],
+    "blocked_calls": 0,
+    "total_tokens": 11607,
+    "latency_sec": 30.647623777389526,
+    "error": null,
+    "invalid_recommendation": false,
+    "correct_feasibility": true,
+    "constraint_violations": [],
+    "validators_called": 4,
+    "parse_failed": false
+  },
+  {
+    "case_id": "IP-005",
+    "failure_mode": "INFEASIBLE_PHASE",
+    "agent_type": "G1",
+    "gt_feasible": false,
+    "final_recommendation": {
+      "feasible": false,
+      "supply_mix": null,
+      "reasoning": "The proposed power supply strategy is not feasible due to multiple constraint violations. The available grid supply is capped at 100 MW, which is insufficient to meet the peak loads of Phase 2 (120 MW) and Phase 3 (200 MW). Geothermal, the only allowed supplemental power source, is explicitly stated as 'too slow for 2028 target', making it unavailable for these crucial phases. Therefore, the capacity constraint cannot be met. Additionally, relying solely on grid power (the only immediate option) results in a blended carbon intensity of 386 kg/MWh, significantly exceeding the target of 200 kg/MWh. The estimated system uptime also falls short of the reliability target.",
+      "missing_data": null
+    },
+    "tool_calls": [
+      {
+        "tool": "get_case_info",
+        "status": "INFO",
+        "msg": "Case IP-005 loaded."
+      },
+      {
+        "tool": "validate_capacity",
+        "status": "FAIL",
+        "msg": "Capacity SHORTFALL: firm supply 99.9 MW < peak load 200.0 MW (deficit 100.1 MW)."
+      },
+      {
+        "tool": "validate_cost",
+        "status": "PASS",
+        "msg": "Cost OK: $0.0M \u2264 $800.0M budget ($800.0M headroom)."
+      },
+      {
+        "tool": "validate_carbon",
+        "status": "FAIL",
+        "msg": "Carbon VIOLATION: 386.0 kg/MWh > 200.0 kg/MWh target (excess 186.0 kg/MWh)."
+      },
+      {
+        "tool": "validate_reliability",
+        "status": "FAIL",
+        "msg": "Reliability SHORTFALL: 99.9000% < 99.9% target."
+      }
+    ],
+    "blocked_calls": 0,
+    "total_tokens": 14532,
+    "latency_sec": 32.539618253707886,
+    "error": null,
+    "invalid_recommendation": false,
+    "correct_feasibility": true,
+    "constraint_violations": [],
+    "validators_called": 4,
+    "parse_failed": false
+  },
+  {
+    "case_id": "BV-001",
+    "failure_mode": "BUDGET_VIOLATION",
+    "agent_type": "G1",
+    "gt_feasible": false,
+    "final_recommendation": {
+      "feasible": false,
+      "supply_mix": null,
+      "reasoning": "The provided constraints make a feasible power supply strategy impossible. The carbon target of 20 kg/MWh is extremely stringent, effectively requiring a high proportion of SMR (12 kg/MWh). However, the budget ceiling of $100M only allows for 17.857 MW of SMR capacity, which is insufficient to meet any load phase and uses the entire budget. When attempting to supplement this SMR capacity with grid power (386 kg/MWh) to meet even the initial 20 MW load, the blended carbon intensity vastly exceeds the 20 kg/MWh target (e.g., 235.7 kg/MWh for a mix of 17.857 MW SMR and 25 MW grid). To meet the carbon target, an SMR capacity far exceeding the budget would be required. Furthermore, even with max SMR and available grid, the system fails to meet the 50 MW peak load capacity and the reliability target. Thus, there is no viable combination of the allowed technologies that satisfies all criteria.",
+      "missing_data": null
+    },
+    "tool_calls": [
+      {
+        "tool": "get_case_info",
+        "status": "INFO",
+        "msg": "Case BV-001 loaded."
+      },
+      {
+        "tool": "validate_capacity",
+        "status": "FAIL",
+        "msg": "Grid allocation 33.248 MW exceeds confirmed grid capacity 25 MW."
+      },
+      {
+        "tool": "validate_capacity",
+        "status": "FAIL",
+        "msg": "Capacity SHORTFALL: firm supply 41.8 MW < peak load 50.0 MW (deficit 8.2 MW)."
+      },
+      {
+        "tool": "validate_cost",
+        "status": "PASS",
+        "msg": "Cost OK: $100.0M \u2264 $100.0M budget ($0.0M headroom)."
+      },
+      {
+        "tool": "validate_carbon",
+        "status": "FAIL",
+        "msg": "Carbon VIOLATION: 235.7 kg/MWh > 20.0 kg/MWh target (excess 215.7 kg/MWh)."
+      },
+      {
+        "tool": "validate_reliability",
+        "status": "FAIL",
+        "msg": "Reliability SHORTFALL: 99.9322% < 99.99% target."
+      }
+    ],
+    "blocked_calls": 0,
+    "total_tokens": 29173,
+    "latency_sec": 52.93831181526184,
+    "error": null,
+    "invalid_recommendation": false,
+    "correct_feasibility": true,
+    "constraint_violations": [],
+    "validators_called": 4,
+    "parse_failed": false
+  },
+  {
+    "case_id": "BV-002",
+    "failure_mode": "BUDGET_VIOLATION",
+    "agent_type": "G1",
+    "gt_feasible": false,
+    "final_recommendation": {
+      "feasible": false,
+      "supply_mix": null,
+      "reasoning": "The budget of $50M is insufficient to provide the required 80 MW of firm capacity using only diesel_gen and solar_bess for Phases 1 and 2 (prior to grid availability). The maximum firm capacity achievable with the budget is 44.44 MW from diesel_gen, which falls short of the 80 MW peak load.",
+      "missing_data": null
+    },
+    "tool_calls": [
+      {
+        "tool": "get_case_info",
+        "status": "INFO",
+        "msg": "Case BV-002 loaded."
+      },
+      {
+        "tool": "validate_capacity",
+        "status": "FAIL",
+        "msg": "Capacity SHORTFALL: firm supply 44.4 MW < peak load 80.0 MW (deficit 35.6 MW)."
+      },
+      {
+        "tool": "validate_cost",
+        "status": "PASS",
+        "msg": "Cost OK: $50.0M \u2264 $50.0M budget ($0.0M headroom)."
+      },
+      {
+        "tool": "validate_carbon",
+        "status": "PASS",
+        "msg": "Carbon OK: 790.0 kg/MWh \u2264 800.0 kg/MWh target."
+      },
+      {
+        "tool": "validate_reliability",
+        "status": "PASS",
+        "msg": "Reliability OK: 99.9500% \u2265 99.5% target."
+      }
+    ],
+    "blocked_calls": 0,
+    "total_tokens": 35520,
+    "latency_sec": 34.367035150527954,
+    "error": null,
+    "invalid_recommendation": false,
+    "correct_feasibility": true,
+    "constraint_violations": [],
+    "validators_called": 4,
+    "parse_failed": false
+  },
+  {
+    "case_id": "BV-003",
+    "failure_mode": "BUDGET_VIOLATION",
+    "agent_type": "G1",
+    "gt_feasible": false,
+    "final_recommendation": {
+      "feasible": false,
+      "supply_mix": null,
+      "reasoning": "A phased power supply strategy meeting all constraints is not feasible due to the combination of a strict carbon target (<= 15 kg/MWh), the long deployment time of SMR (60-120 months), and budget limitations ($80M).\n\n1.  **Carbon Constraint for Phase 1 & 2:** SMR, essential for meeting the carbon target, cannot be online until Phase 3 (earliest Year 5). For Phase 1 (Yrs 0-2) and Phase 2 (Yrs 2-5), only grid (386 kg/MWh) and diesel (790 kg/MWh) are available. Any blend of these technologies will result in a blended carbon intensity far exceeding the 15 kg/MWh target.\n\n2.  **Budget and Carbon Constraint for Phase 3:** Even assuming SMR is available for Phase 3 (100 MW load), the $80M budget only allows for approximately 14 MW of SMR. A supply mix incorporating this maximum SMR (e.g., 14 MW SMR, 86.12 MW grid, 1 MW diesel) to meet capacity and include backup, results in a blended carbon intensity of approximately 340 kg/MWh, significantly exceeding the 15 kg/MWh target. The validation confirms this carbon violation. Furthermore, this mix also fails to meet the reliability target of 99.99%.\n\nDue to these fundamental limitations, a feasible solution under the given constraints cannot be identified for any phase.",
+      "missing_data": null
+    },
+    "tool_calls": [
+      {
+        "tool": "validate_capacity",
+        "status": "FAIL",
+        "msg": "Grid allocation 86.12 MW exceeds confirmed grid capacity 40 MW."
+      },
+      {
+        "tool": "validate_cost",
+        "status": "PASS",
+        "msg": "Cost OK: $79.3M \u2264 $80.0M budget ($0.7M headroom)."
+      },
+      {
+        "tool": "validate_carbon",
+        "status": "FAIL",
+        "msg": "Carbon VIOLATION: 340.0 kg/MWh > 15.0 kg/MWh target (excess 325.0 kg/MWh)."
+      },
+      {
+        "tool": "validate_reliability",
+        "status": "FAIL",
+        "msg": "Reliability SHORTFALL: 99.9605% < 99.99% target."
+      }
+    ],
+    "blocked_calls": 0,
+    "total_tokens": 17052,
+    "latency_sec": 64.93073582649231,
+    "error": null,
+    "invalid_recommendation": false,
+    "correct_feasibility": true,
+    "constraint_violations": [],
+    "validators_called": 4,
+    "parse_failed": false
+  },
+  {
+    "case_id": "BV-004",
+    "failure_mode": "BUDGET_VIOLATION",
+    "agent_type": "G1",
+    "gt_feasible": false,
+    "final_recommendation": {
+      "feasible": false,
+      "supply_mix": {
+        "grid": 15,
+        "fuel_cell_sofc": 13
+      },
+      "reasoning": "The proposed power pathway is not feasible due to two main reasons: First, the `validate_capacity` tool failed to recognize the grid upgrade to 25 MW in 2028, reporting a continuous `grid_cap_available_mw` of 10 MW. This prevented meeting the peak load requirements for later phases when higher grid capacity was expected. Additionally, even after maximizing `fuel_cell_sofc` capacity within the budget, the `validate_reliability` tool indicated that the estimated system uptime (99.9722%) fell short of the required reliability target (99.995%). The remaining budget is insufficient to address this reliability gap.",
+      "missing_data": "The `validate_capacity` tool did not correctly interpret the phased grid capacity upgrade (from 10 MW to 25 MW in 2028) and consistently validated against the final peak load (25 MW) across all phases, rather than the phase-specific loads."
+    },
+    "tool_calls": [
+      {
+        "tool": "validate_capacity",
+        "status": "FAIL",
+        "msg": "Capacity SHORTFALL: firm supply 10.9 MW < peak load 25.0 MW (deficit 14.1 MW)."
+      },
+      {
+        "tool": "validate_capacity",
+        "status": "FAIL",
+        "msg": "Capacity SHORTFALL: firm supply 20.1 MW < peak load 25.0 MW (deficit 4.9 MW)."
+      },
+      {
+        "tool": "validate_capacity",
+        "status": "FAIL",
+        "msg": "Grid allocation 15 MW exceeds confirmed grid capacity 10 MW."
+      },
+      {
+        "tool": "validate_cost",
+        "status": "PASS",
+        "msg": "Cost OK: $33.0M \u2264 $40.0M budget ($7.0M headroom)."
+      },
+      {
+        "tool": "validate_carbon",
+        "status": "PASS",
+        "msg": "Carbon OK: 419.9 kg/MWh \u2264 500.0 kg/MWh target."
+      },
+      {
+        "tool": "validate_reliability",
+        "status": "FAIL",
+        "msg": "Reliability SHORTFALL: 99.9702% < 99.995% target."
+      },
+      {
+        "tool": "validate_reliability",
+        "status": "FAIL",
+        "msg": "Reliability SHORTFALL: 99.9722% < 99.995% target."
+      }
+    ],
+    "blocked_calls": 0,
+    "total_tokens": 21448,
+    "latency_sec": 63.27918815612793,
+    "error": null,
+    "invalid_recommendation": false,
+    "correct_feasibility": true,
+    "constraint_violations": [],
+    "validators_called": 4,
+    "parse_failed": false
+  },
+  {
+    "case_id": "CV-001",
+    "failure_mode": "CARBON_VIOLATION",
+    "agent_type": "G1",
+    "gt_feasible": false,
+    "final_recommendation": {
+      "feasible": false,
+      "supply_mix": {
+        "grid": 30.04
+      },
+      "reasoning": "A feasible power supply strategy cannot be achieved due to the carbon constraint. Both 'grid' (386 kg/MWh) and 'diesel_gen' (790 kg/MWh) technologies have carbon intensities significantly higher than the target of 40 kg/MWh. Even utilizing 100% grid power, the blended carbon intensity of 386 kg/MWh far exceeds the target. All other constraints (capacity, cost, reliability) could be met.",
+      "missing_data": null
+    },
+    "tool_calls": [
+      {
+        "tool": "validate_capacity",
+        "status": "FAIL",
+        "msg": "Capacity SHORTFALL: firm supply 30.0 MW < peak load 30.0 MW (deficit 0.0 MW)."
+      },
+      {
+        "tool": "validate_cost",
+        "status": "PASS",
+        "msg": "Cost OK: $0.0M \u2264 $200.0M budget ($200.0M headroom)."
+      },
+      {
+        "tool": "validate_carbon",
+        "status": "FAIL",
+        "msg": "Carbon VIOLATION: 386.0 kg/MWh > 40.0 kg/MWh target (excess 346.0 kg/MWh)."
+      },
+      {
+        "tool": "validate_reliability",
+        "status": "PASS",
+        "msg": "Reliability OK: 99.9000% \u2265 99.5% target."
+      },
+      {
+        "tool": "validate_capacity",
+        "status": "PASS",
+        "msg": "Capacity OK: 30.0 MW firm \u2265 30.0 MW peak (margin 0.0 MW)."
+      },
+      {
+        "tool": "validate_cost",
+        "status": "PASS",
+        "msg": "Cost OK: $0.0M \u2264 $200.0M budget ($200.0M headroom)."
+      },
+      {
+        "tool": "validate_carbon",
+        "status": "FAIL",
+        "msg": "Carbon VIOLATION: 386.0 kg/MWh > 40.0 kg/MWh target (excess 346.0 kg/MWh)."
+      },
+      {
+        "tool": "validate_reliability",
+        "status": "PASS",
+        "msg": "Reliability OK: 99.9000% \u2265 99.5% target."
+      }
+    ],
+    "blocked_calls": 0,
+    "total_tokens": 9034,
+    "latency_sec": 14.629301071166992,
+    "error": null,
+    "invalid_recommendation": false,
+    "correct_feasibility": true,
+    "constraint_violations": [],
+    "validators_called": 4,
+    "parse_failed": false
+  },
+  {
+    "case_id": "CV-002",
+    "failure_mode": "CARBON_VIOLATION",
+    "agent_type": "G1",
+    "gt_feasible": false,
+    "final_recommendation": {
+      "feasible": false,
+      "supply_mix": {
+        "grid": 49.634,
+        "solar_bess": 2.083
+      },
+      "reasoning": "The proposed power supply strategy is not feasible because it fails to meet the carbon intensity target. Although the strategy meets capacity, cost, and reliability requirements by utilizing the full budget for solar_bess (2.083 MW nameplate) and supplementing with grid power (49.634 MW nameplate) to cover the 50 MW peak load, the blended carbon intensity remains at 383.1 kg/MWh, which is far above the 100 kg CO2/MWh target. The high carbon intensity of grid power (386 kg/MWh) combined with the limited budget for low-carbon alternatives like solar_bess (which would require over $40M to achieve the carbon target, as noted in the case description) makes it impossible to achieve the target within the given constraints.",
+      "missing_data": null
+    },
+    "tool_calls": [
+      {
+        "tool": "validate_capacity",
+        "status": "FAIL",
+        "msg": "Capacity SHORTFALL: firm supply 50.0 MW < peak load 50.0 MW (deficit 0.0 MW)."
+      },
+      {
+        "tool": "validate_cost",
+        "status": "PASS",
+        "msg": "Cost OK: $5.0M \u2264 $5.0M budget ($0.0M headroom)."
+      },
+      {
+        "tool": "validate_carbon",
+        "status": "FAIL",
+        "msg": "Carbon VIOLATION: 383.1 kg/MWh > 100.0 kg/MWh target (excess 283.1 kg/MWh)."
+      },
+      {
+        "tool": "validate_reliability",
+        "status": "PASS",
+        "msg": "Reliability OK: 99.8958% \u2265 99.0% target."
+      },
+      {
+        "tool": "validate_capacity",
+        "status": "PASS",
+        "msg": "Capacity OK: 50.0 MW firm \u2265 50.0 MW peak (margin 0.0 MW)."
+      },
+      {
+        "tool": "validate_cost",
+        "status": "PASS",
+        "msg": "Cost OK: $5.0M \u2264 $5.0M budget ($0.0M headroom)."
+      },
+      {
+        "tool": "validate_carbon",
+        "status": "FAIL",
+        "msg": "Carbon VIOLATION: 383.1 kg/MWh > 100.0 kg/MWh target (excess 283.1 kg/MWh)."
+      },
+      {
+        "tool": "validate_reliability",
+        "status": "PASS",
+        "msg": "Reliability OK: 99.8958% \u2265 99.0% target."
+      }
+    ],
+    "blocked_calls": 0,
+    "total_tokens": 14142,
+    "latency_sec": 25.61914587020874,
+    "error": null,
+    "invalid_recommendation": false,
+    "correct_feasibility": true,
+    "constraint_violations": [],
+    "validators_called": 4,
+    "parse_failed": false
+  },
+  {
+    "case_id": "CV-003",
+    "failure_mode": "CARBON_VIOLATION",
+    "agent_type": "G1",
+    "gt_feasible": false,
+    "final_recommendation": {
+      "feasible": false,
+      "supply_mix": {
+        "diesel_gen": 41.38,
+        "solar_bess": 34.48
+      },
+      "reasoning": "A phased power supply strategy meeting all constraints is not feasible with the allowed technologies (diesel_gen, solar_bess) and budget. Even with a supply mix optimized to maximize solar within the budget for the highest load phase (40 MW), the blended carbon intensity of 660.7 kg/MWh significantly exceeds the target of 50 kg/MWh. Additionally, the estimated system reliability of 99.8638% falls short of the 99.9% target.",
+      "missing_data": null
+    },
+    "tool_calls": [
+      {
+        "tool": "get_case_info",
+        "status": "INFO",
+        "msg": "Case CV-003 loaded."
+      },
+      {
+        "tool": "validate_capacity",
+        "status": "ERROR",
+        "msg": "Technology 'grid' not in allowed_supply for this case."
+      },
+      {
+        "tool": "validate_cost",
+        "status": "PASS",
+        "msg": "Cost OK: $120.0M \u2264 $120.0M budget ($0.0M headroom)."
+      },
+      {
+        "tool": "validate_carbon",
+        "status": "FAIL",
+        "msg": "Carbon VIOLATION: 324.6 kg/MWh > 50.0 kg/MWh target (excess 274.6 kg/MWh)."
+      },
+      {
+        "tool": "validate_reliability",
+        "status": "FAIL",
+        "msg": "Reliability SHORTFALL: 99.8521% < 99.9% target."
+      },
+      {
+        "tool": "validate_capacity",
+        "status": "PASS",
+        "msg": "Capacity OK: 40.0 MW firm \u2265 40.0 MW peak (margin 0.0 MW)."
+      },
+      {
+        "tool": "validate_cost",
+        "status": "PASS",
+        "msg": "Cost OK: $120.0M \u2264 $120.0M budget ($0.0M headroom)."
+      },
+      {
+        "tool": "validate_carbon",
+        "status": "FAIL",
+        "msg": "Carbon VIOLATION: 660.7 kg/MWh > 50.0 kg/MWh target (excess 610.7 kg/MWh)."
+      },
+      {
+        "tool": "validate_reliability",
+        "status": "FAIL",
+        "msg": "Reliability SHORTFALL: 99.8638% < 99.9% target."
+      }
+    ],
+    "blocked_calls": 0,
+    "total_tokens": 34504,
+    "latency_sec": 51.15752816200256,
+    "error": null,
+    "invalid_recommendation": false,
+    "correct_feasibility": true,
+    "constraint_violations": [],
+    "validators_called": 4,
+    "parse_failed": false
+  },
+  {
+    "case_id": "HT-001",
+    "failure_mode": "HALLUCINATION_TRAP",
+    "agent_type": "G1",
+    "gt_feasible": false,
+    "final_recommendation": {
+      "feasible": false,
+      "supply_mix": null,
+      "reasoning": "While a supply mix of {\"grid\": 20, \"wind_bess\": 111.17} MW (nameplate) can meet the capacity, cost, and carbon constraints, it fails to meet the reliability target of >= 99.9% uptime. The estimated reliability for this mix is 99.4998%. Given the inherent reliability of the allowed renewable sources (wind_bess at 0.993, solar_bess at 0.994) is below the target, and the grid capacity is capped, it is not possible to achieve the required reliability with the specified technologies. Therefore, no feasible solution exists under the given constraints.",
+      "missing_data": null
+    },
+    "tool_calls": [
+      {
+        "tool": "validate_capacity",
+        "status": "PASS",
+        "msg": "Capacity OK: 60.0 MW firm \u2265 60.0 MW peak (margin 0.0 MW)."
+      },
+      {
+        "tool": "validate_cost",
+        "status": "PASS",
+        "msg": "Cost OK: $189.0M \u2264 $200.0M budget ($11.0M headroom)."
+      },
+      {
+        "tool": "validate_carbon",
+        "status": "PASS",
+        "msg": "Carbon OK: 135.2 kg/MWh \u2264 200.0 kg/MWh target."
+      },
+      {
+        "tool": "validate_reliability",
+        "status": "FAIL",
+        "msg": "Reliability SHORTFALL: 99.4998% < 99.9% target."
+      },
+      {
+        "tool": "get_case_info",
+        "status": "INFO",
+        "msg": "Case HT-001 loaded."
+      },
+      {
+        "tool": "validate_reliability",
+        "status": "FAIL",
+        "msg": "Reliability SHORTFALL: 99.5707% < 99.9% target."
+      }
+    ],
+    "blocked_calls": 0,
+    "total_tokens": 23282,
+    "latency_sec": 43.733142137527466,
+    "error": null,
+    "invalid_recommendation": false,
+    "correct_feasibility": true,
+    "constraint_violations": [],
+    "validators_called": 4,
+    "parse_failed": false
+  },
+  {
+    "case_id": "HT-002",
+    "failure_mode": "HALLUCINATION_TRAP",
+    "agent_type": "G1",
+    "gt_feasible": null,
+    "final_recommendation": null,
+    "tool_calls": [
+      {
+        "tool": "get_case_info",
+        "status": "INFO",
+        "msg": "Case HT-002 loaded."
+      }
+    ],
+    "blocked_calls": 0,
+    "total_tokens": 3033,
+    "latency_sec": 22.641383171081543,
+    "error": null,
+    "invalid_recommendation": false,
+    "correct_feasibility": null,
+    "constraint_violations": [],
+    "validators_called": 0,
+    "parse_failed": true
+  },
+  {
+    "case_id": "HT-003",
+    "failure_mode": "HALLUCINATION_TRAP",
+    "agent_type": "G1",
+    "gt_feasible": false,
+    "final_recommendation": {
+      "feasible": false,
+      "supply_mix": {
+        "grid": 10,
+        "solar_bess": 22.9
+      },
+      "reasoning": "The proposed strategy is infeasible. The peak load requirement of 40 MW (and even 20 MW for Phase 1) cannot be met within the $55M budget using the allowed technologies. To meet the 20 MW Phase 1 load, 10 MW firm capacity is needed from solar_bess (after utilizing 10 MW grid), requiring 50 MW nameplate solar_bess costing $120M, which exceeds the budget. Even maximizing affordable solar_bess to ~22.9 MW alongside 10 MW grid provides only ~14.6 MW firm capacity, insufficient for any load phase. Additionally, this mix results in a blended carbon intensity of 277.2 kg/MWh, far above the 80 kg/MWh target. Therefore, the capacity and carbon constraints cannot be satisfied simultaneously within the budget.",
+      "missing_data": null
+    },
+    "tool_calls": [
+      {
+        "tool": "get_case_info",
+        "status": "INFO",
+        "msg": "Case HT-003 loaded."
+      },
+      {
+        "tool": "validate_capacity",
+        "status": "FAIL",
+        "msg": "Grid allocation 20 MW exceeds confirmed grid capacity 10 MW."
+      },
+      {
+        "tool": "validate_capacity",
+        "status": "FAIL",
+        "msg": "Capacity SHORTFALL: firm supply 14.6 MW < peak load 40.0 MW (deficit 25.4 MW)."
+      },
+      {
+        "tool": "validate_cost",
+        "status": "PASS",
+        "msg": "Cost OK: $55.0M \u2264 $55.0M budget ($0.0M headroom)."
+      },
+      {
+        "tool": "validate_carbon",
+        "status": "FAIL",
+        "msg": "Carbon VIOLATION: 277.2 kg/MWh > 80.0 kg/MWh target (excess 197.2 kg/MWh)."
+      },
+      {
+        "tool": "validate_reliability",
+        "status": "PASS",
+        "msg": "Reliability OK: 99.7428% \u2265 99.0% target."
+      },
+      {
+        "tool": "submit_final_recommendation",
+        "status": "ACCEPTED"
+      }
+    ],
+    "blocked_calls": 0,
+    "total_tokens": 40304,
+    "latency_sec": 35.982744216918945,
+    "error": null,
+    "invalid_recommendation": false,
+    "correct_feasibility": true,
+    "constraint_violations": [],
+    "validators_called": 4,
+    "parse_failed": false
+  },
+  {
+    "case_id": "HT-004",
+    "failure_mode": "HALLUCINATION_TRAP",
+    "agent_type": "G1",
+    "gt_feasible": false,
+    "final_recommendation": {
+      "feasible": false,
+      "supply_mix": null,
+      "reasoning": "The power supply strategy is infeasible because the reliability target of 99.9% cannot be met for the 100 MW peak load in Phase 3. To achieve 99.9% reliability for a total firm capacity of 100 MW using the allowed technologies (grid and wind_bess), the firm capacity from the grid alone would need to be at least 100 MW. However, the maximum firm capacity available from the grid, even with the full 100 MW nameplate capacity (available from 2029), is 100 MW * 0.999 (CF) = 99.9 MW. Since the grid cannot provide 100 MW firm capacity at 99.9% reliability by itself, and adding any wind_bess (which has a lower base reliability of 0.993) would further decrease the blended reliability below the target, the reliability constraint cannot be satisfied.",
+      "missing_data": null
+    },
+    "tool_calls": [
+      {
+        "tool": "validate_capacity",
+        "status": "FAIL",
+        "msg": "Grid allocation 77.205 MW exceeds confirmed grid capacity 40 MW."
+      },
+      {
+        "tool": "validate_cost",
+        "status": "PASS",
+        "msg": "Cost OK: $108.0M \u2264 $300.0M budget ($192.0M headroom)."
+      },
+      {
+        "tool": "validate_carbon",
+        "status": "FAIL",
+        "msg": "Carbon VIOLATION: 300.0 kg/MWh > 300.0 kg/MWh target (excess 0.0 kg/MWh)."
+      },
+      {
+        "tool": "validate_reliability",
+        "status": "FAIL",
+        "msg": "Reliability SHORTFALL: 99.7628% < 99.9% target."
+      }
+    ],
+    "blocked_calls": 0,
+    "total_tokens": 8872,
+    "latency_sec": 53.10469913482666,
+    "error": null,
+    "invalid_recommendation": false,
+    "correct_feasibility": true,
+    "constraint_violations": [],
+    "validators_called": 4,
+    "parse_failed": false
+  }
+]

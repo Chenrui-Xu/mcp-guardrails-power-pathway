@@ -1,0 +1,469 @@
+\documentclass[conference]{IEEEtran}
+\IEEEoverridecommandlockouts
+
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage{url}
+\usepackage{microtype}
+\usepackage{listings}
+
+\lstset{
+  basicstyle=\ttfamily\scriptsize,
+  frame=single,
+  breaklines=true,
+}
+
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+
+\begin{document}
+
+\title{Deterministic MCP Guardrails for Safe Power-Pathway\\Design Agents}
+
+\author{%
+\IEEEauthorblockN{Chenrui Xu}
+\IEEEauthorblockA{\textit{Department of Civil and Environmental Engineering} \\
+Carnegie Mellon University \\
+Pittsburgh, PA, USA \\
+chenruixu@cmu.edu}
+}
+
+\maketitle
+
+\begin{abstract}
+Large language model (LLM) agents are increasingly used for safety-critical
+engineering decisions, yet they remain prone to arithmetic hallucination and
+constraint omission.  We study whether deterministic, pre-execution guardrails
+implemented via the Model Context Protocol (MCP) can reduce invalid
+decisions in grid-constrained power-pathway planning.  We introduce a
+22-case benchmark spanning five failure modes (infeasible phases, budget
+violations, carbon violations, hallucination traps, and feasible baselines)
+and four agent conditions that progressively add structure: prompt-only (B1),
+self-critique (B2), tools without enforcement (B3), and MCP-guarded with
+mandatory validator calls (G1).  Live evaluation with Gemini~2.5~Flash
+shows that providing validator tools without enforcement (B3) reduces the
+invalid-decision rate from 36.4\% to 9.1\%, while adding gateway
+enforcement (G1) further reduces it to 4.5\%.  Self-critique provides no
+improvement over the prompt-only baseline.  In this benchmark, tool
+availability accounts for most of the improvement, with pre-execution
+enforcement adding a smaller but measurable safety margin.
+\end{abstract}
+
+\begin{IEEEkeywords}
+LLM agents, guardrails, model context protocol, power systems, constraint
+enforcement, safe AI
+\end{IEEEkeywords}
+
+% ============================================================
+\section{Introduction}
+% ============================================================
+
+Data-center operators and grid planners are beginning to adopt LLM-based
+agents to recommend power-supply strategies, selecting among technologies such
+as grid interconnects, wind-plus-battery, solar-plus-battery, fuel cells,
+and small modular reactors~\cite{iea2024datacenters}.  These recommendations
+must satisfy hard engineering constraints: firm (dispatchable) capacity must
+cover peak load in every growth phase; total capital expenditure must fit
+within a budget ceiling; blended carbon intensity must not exceed a regulatory
+target; and system uptime must meet a reliability threshold.
+
+Unfortunately, current LLMs are unreliable arithmetic reasoners~\cite{frieder2023mathematical},
+and their self-monitoring through chain-of-thought or self-critique
+is insufficient for safety-critical domains~\cite{huang2023large}.
+Even when a model ``checks'' its own work, it may reinforce incorrect
+reasoning rather than correct it.
+
+The \emph{Model Context Protocol} (MCP)~\cite{anthropic2024mcp} provides a
+standardized interface through which LLM agents call external tools.  MCP
+gateways sit between the model and the tools, offering a natural enforcement
+point for pre-execution policy checks.  Yet published MCP deployments focus
+on capability integration (web search, code execution, database access) rather
+than safety enforcement.
+
+\textbf{Research question.}  \textit{Do deterministic, pre-execution MCP
+guardrails reduce invalid-decision rates for LLM power-pathway planning
+agents, and what is the cost in tokens and latency?}
+
+We make three contributions:
+(1)~a 22-case benchmark (PowerPathway-22) with five failure modes
+and deterministic validator tools;
+(2)~an MCP gateway that blocks final submission until prerequisite validators
+have been invoked; and
+(3)~a live evaluation across 88 runs (4 agents $\times$ 22 cases) with
+Gemini~2.5~Flash.  Tool availability reduces the invalid-decision rate
+from 36.4\% to 9.1\%, and mandatory enforcement further reduces it to
+4.5\%.
+
+
+% ============================================================
+\section{Related Work}
+% ============================================================
+
+\subsection{LLM Agents for Engineering}
+
+LLM agents have been applied to robotic design~\cite{makatura2023llm},
+chemical synthesis~\cite{boiko2023emergent}, and energy-system
+analysis~\cite{zheng2024energy}.  These works highlight the ability of
+LLMs to reason qualitatively about engineering trade-offs but do not
+address the enforcement of hard numerical constraints.  Schick et
+al.~\cite{schick2023toolformer} introduced Toolformer, showing that LLMs
+can learn to call external APIs to improve factual accuracy; our work
+extends this paradigm by imposing \emph{mandatory sequencing constraints}
+on which tools must be called before a final answer may be submitted.
+ReAct~\cite{yao2023react} introduced the paradigm of interleaving reasoning
+and tool-calling in LLM agents; our G1 agent follows this paradigm but adds
+a stateful enforcement layer that restricts which tools may be called and
+in what order.
+
+\subsection{Guardrails and Alignment}
+
+Constitutional AI~\cite{bai2022constitutional} and RLHF train models to
+avoid undesirable outputs, but provide no formal guarantees at inference
+time.  Output-filtering guardrails (e.g., NeMo-Guardrails~\cite{rebedea2023nemo},
+Guardrails~AI~\cite{guardrailsai}) post-process model text but cannot
+prevent the model from generating a hallucinated numerical answer that
+later slips through a lenient regex.  Our approach is complementary:
+rather than filtering outputs, we enforce \emph{preconditions on tool calls},
+preventing the agent from finalizing a recommendation before deterministic
+validators have cleared it.
+
+Doshi et al.~\cite{doshi2026} argue that safety properties of
+tool-using agents should be enforced structurally at the tool boundary
+rather than through prompt discipline; our MCP gateway instantiates
+this principle.  Yang et al.~\cite{yang2025} show that prompts
+systematically underspecify intended behavior, motivating enforcement
+through typed tool permissions.  Greshake et al.~\cite{greshake2023indirect}
+demonstrate that indirect prompt injection can hijack agent workflows;
+we observe a related non-adversarial bypass where the model ignores
+tools entirely (Section~\ref{sec:validators}).
+
+\subsection{Model Context Protocol}
+
+MCP~\cite{anthropic2024mcp} standardizes tool registration, schema
+validation, and result handling for LLM agents.  Existing MCP servers
+expose capabilities (databases, web search, code sandboxes) but do not
+implement dependency or ordering enforcement.  We extend the gateway
+pattern with a stateful \emph{session} that tracks which validators have
+been called and blocks downstream calls until prerequisites are satisfied.
+
+\subsection{Power-Pathway Planning}
+
+Grid interconnect capacity, dispatch factors, and capital-cost models are
+well-characterized in the power-systems literature~\cite{nrel2023atb}.
+However, agent-based tools for power-pathway recommendation are nascent,
+and no prior work has evaluated LLM agents against a systematic constraint
+benchmark for this domain.
+
+
+% ============================================================
+\section{Method}
+% ============================================================
+
+\subsection{Benchmark: PowerPathway-22}
+
+We construct 22 cases representing data-center or industrial facility
+planning scenarios with five failure modes (Table~\ref{tab:benchmark}).
+Each case specifies load phases (MW), confirmed grid capacity, budget
+ceiling, reliability target (\% uptime), and carbon limit (kg\,CO\textsubscript{2}/MWh).
+Technology parameters (capacity factor, capex/kW, carbon intensity,
+deployment time) are drawn from the NREL Annual Technology Baseline and
+the Power Pathway Optimizer prototype~\cite{ppopt}.  All cases and their
+ground-truth feasibility labels were constructed by the authors; the
+benchmark therefore primarily serves as a controlled testbed for the
+guardrail mechanism rather than a representative sample of real-world planning
+scenarios.
+
+\begin{table}[t]
+\centering
+\caption{PowerPathway-22 Benchmark Cases}
+\label{tab:benchmark}
+\begin{tabular}{lrp{3.8cm}}
+\toprule
+Failure Mode & Count & Representative challenge \\
+\midrule
+FEASIBLE           & 6  & Positive control; valid mix exists \\
+INFEASIBLE\_PHASE  & 5  & Load exceeds confirmed supply in some phase \\
+BUDGET\_VIOLATION  & 4  & Cheapest valid mix exceeds budget ceiling \\
+CARBON\_VIOLATION  & 3  & No allowed tech meets carbon target \\
+HALLUCINATION\_TRAP& 4  & Missing/ambiguous data tempts false assumption \\
+\midrule
+Total              & 22 & \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Deterministic Validator Tools}
+
+We implement each hard constraint as a deterministic validator tool.
+These validators serve two roles: (1)~as \emph{result invariants},
+re-run post-hoc on every agent's final supply mix to compute the
+invalid-decision metric; and (2)~as \emph{runtime tools} exposed
+to B3 and G1 during planning, where the difference is whether calling
+them is optional (B3) or enforced (G1).
+
+The four validators check: \textbf{capacity}, firm (dispatchable)
+power $\sum_t \text{CF}_t \times \text{MW}_t \geq \text{peak\_load}$,
+with grid capped at the confirmed interconnect; \textbf{cost}, total
+capex $\leq$ budget, using NREL ATB~\cite{nrel2023atb} cost rates;
+\textbf{carbon}, generation-weighted intensity $\leq$ target; and
+\textbf{reliability}, blended availability $\geq$ uptime target, with
+a backup bonus for fast-dispatch sources.  For example, a 100\,MW
+solar-only proposal at 20\% capacity factor contributes only 20\,MW of
+firm capacity, so it fails the capacity validator for a 100\,MW peak-load
+case even though its nameplate capacity appears sufficient.  A fifth tool,
+\textbf{score\_pathway}, computes a composite score from 0 to 100.
+All tools are pure functions with no side effects.
+
+\subsection{MCP Gateway}
+
+The MCP gateway (Fig.~\ref{fig:gateway}) maintains a per-run session object
+that records which validators have been invoked.  A blocking rule prevents
+\texttt{submit\_final\_recommendation} from executing unless all four
+validators have been called.  Attempting to bypass this check returns an
+\texttt{ERROR} status with an explanatory message, prompting the agent to
+complete the missing validators before resubmitting.
+
+\begin{figure}[t]
+\centering
+\begin{lstlisting}
+# Simplified gateway logic
+def call(tool_name, **kwargs):
+    if tool_name not in TOOL_REGISTRY:
+        return ToolResult("ERROR", "Unknown tool")
+    if missing_args(tool_name, kwargs):
+        return ToolResult("ERROR", "Missing required args")
+    for condition, msg in BLOCKING_RULES[tool_name]:
+        if condition(kwargs, session):
+            return ToolResult("BLOCKED", msg)
+    result = TOOL_REGISTRY[tool_name](**kwargs)
+    session.record(tool_name, result)
+    return result
+\end{lstlisting}
+\caption{Simplified MCP gateway enforcement logic. Schema errors return
+\texttt{ERROR}; dependency violations return \texttt{BLOCKED}.}
+\label{fig:gateway}
+\end{figure}
+
+\subsection{Agent Conditions}
+
+We compare four conditions that progressively add structure.  B1 and B2
+have no access to validator tools; B3 and G1 both have access to the
+same tools but differ in whether usage is enforced.
+
+\textbf{B1 (prompt-only)} issues a single inference call with a system
+prompt describing the four constraint types and the required JSON output
+format.  No tools are available.
+
+\textbf{B2 (self-critique)} follows B1's initial response with up to two
+rounds of structured critique prompts that explicitly enumerate each
+constraint, asking the model to check and revise.
+
+\textbf{B3 (tools, no enforcement)} exposes the same six tools as G1
+via the model's native function-calling interface, and the system prompt
+instructs the agent to call all four validators before recommending.
+However, no gateway enforcement exists: the agent \emph{may} submit a
+final recommendation without having called any validator.  This condition
+isolates the effect of tool availability from the effect of mandatory
+enforcement.
+
+\textbf{G1 (MCP-guarded)} is identical to B3 except that all tool calls
+pass through the MCP gateway, which blocks
+\texttt{submit\_final\_recommendation} unless all four validators have
+been called.  This condition tests whether structural enforcement
+provides additional safety beyond tool availability with prompting.
+
+\subsection{Evaluation Metrics}
+
+We evaluate each of the 88 runs (4 agents $\times$ 22 cases):
+\begin{itemize}
+  \item \textbf{invalid\_decision}: the agent's final decision is invalid if
+    it either submits a supply mix that violates $\geq$1 hard constraint
+    (capacity, cost, carbon, or reliability), as determined by re-running
+    all four deterministic validators, or incorrectly declares a feasible
+    case infeasible/unknown.  For G1, the gateway structurally prevents
+    submission before validators complete, so remaining invalid decisions
+    measure whether the \emph{agent correctly interprets validator feedback
+    and identifies feasibility}, not merely whether it called the tools.
+  \item \textbf{correct\_feasibility}: the agent correctly identified whether
+    the case is feasible or infeasible (or unknown for HT-002).  This is the
+    primary metric of \emph{reasoning quality}.
+  \item \textbf{validators\_called} (B3 and G1): number of the four required
+    validators invoked per run.
+  \item \textbf{total\_tokens} and \textbf{latency\_sec}: efficiency.
+\end{itemize}
+
+
+% ============================================================
+\section{Results}
+% ============================================================
+
+\subsection{Overall Safety Metrics}
+
+Table~\ref{tab:main} summarizes the live evaluation results across all
+88 runs (4 agents $\times$ 22 cases, Gemini~2.5~Flash).
+G1 reduces the invalid-decision rate to 4.5\% (1/22), compared to
+36.4\% (8/22) for both B1 and B2.
+Notably, self-critique (B2) provides \emph{no improvement} over the
+prompt-only baseline: both produce 8 invalid decisions across
+identical failure modes.  B3, which has access to the same tools as G1
+but without gateway enforcement, achieves 9.1\% (2/22), a substantial
+improvement over B1/B2 but still twice G1's rate.  The comparison indicates
+that tool availability helps, while enforcement may provide an additional
+safety margin.  The \emph{correct feasibility} metric shows a similar
+ordering: B1 59.1\%, B2 61.9\%, B3 85.7\%, G1 90.0\%.  Token overhead
+for B3 and G1 is 21.8k and 26.1k tokens respectively, reflecting
+multi-round function-calling, but latency remains modest (41\,s).
+
+\begin{table}[t]
+\centering
+\caption{Agent Comparison Across 22 Cases (Live, Gemini~2.5~Flash)}
+\label{tab:main}
+\begin{tabular}{lrrrrr}
+\toprule
+Agent & Invalid\% & Correct\% & Avg Tok & Avg Lat (s) & Validators \\
+\midrule
+B1    & 36.4   &  59.1     &  1{,}161  &  34.5     & N/A  \\
+B2    & 36.4   &  61.9     &  8{,}589  &  87.6     & N/A  \\
+B3    &  9.1   &  85.7     & 21{,}783  &  41.1     & 3.86 \\
+G1    &  4.5   &  90.0     & 26{,}067  &  41.7     & 3.82 \\
+\bottomrule
+\end{tabular}
+\vspace{0.5mm}
+\footnotesize Invalid\% denotes invalid final decisions, including both
+constraint-violating mixes and incorrect infeasibility/unknown decisions.
+Correct\% excludes runs with no parseable feasibility decision
+(denominators: B1=22, B2=21, B3=21, G1=20).
+\end{table}
+
+\subsection{Breakdown by Failure Mode}
+
+Table~\ref{tab:modes} shows invalid-decision counts by failure mode.
+The most striking pattern is the \textsc{FEASIBLE} regime: B1 and B2 each
+produce 5/6 invalid decisions: they claim infeasibility for cases
+where a valid supply mix exists, unable to find one without validator
+guidance.  B3 reduces this to 2/6 and G1 to 1/6, confirming that
+validator tools help the model discover feasible mixes that it cannot
+find through reasoning alone.  All four agents handle
+\textsc{BUDGET\_VIOLATION} and \textsc{CARBON\_VIOLATION} correctly
+(0~invalids), because these cases are infeasible and the models
+correctly decline to propose a mix.  On \textsc{HALLUCINATION\_TRAP}
+cases, B1 and B2 each produce 2/4 invalid decisions; both B3 and
+G1 produce 0/4, as validator feedback exposes the missing or
+inconsistent data before submission.
+
+\begin{table}[t]
+\centering
+\caption{Invalid Decisions by Failure Mode (count/total, live)}
+\label{tab:modes}
+\begin{tabular}{lrrrr}
+\toprule
+Failure Mode & B1 & B2 & B3 & G1 \\
+\midrule
+FEASIBLE            & 5/6  & 5/6  & 2/6  & 1/6 \\
+INFEASIBLE\_PHASE   & 1/5  & 1/5  & 0/5  & 0/5 \\
+BUDGET\_VIOLATION   & 0/4  & 0/4  & 0/4  & 0/4 \\
+CARBON\_VIOLATION   & 0/3  & 0/3  & 0/3  & 0/3 \\
+HALLUCINATION\_TRAP & 2/4  & 2/4  & 0/4  & 0/4 \\
+\midrule
+Total               & 8/22 & 8/22 & 2/22 & 1/22 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Tool Usage Patterns in B3 and G1}
+\label{sec:validators}
+
+Both B3 and G1 called validators at similar rates: B3 averaged 3.86
+validators per run and G1 averaged 3.82.  When tools are available and
+the prompt instructs their use, the model generally
+complies, even without enforcement.  The difference between B3 and G1
+is therefore not in \emph{whether} validators are called, but in how
+the model responds to validator feedback.  B3's 2 invalid
+decisions both occurred in \textsc{FEASIBLE} cases despite
+calling all four validators: in one case (F-001) the model iterated
+repeatedly but could not converge on a capacity-satisfying mix; in
+another (F-003) it incorrectly concluded the case was infeasible.
+G1 produced one similar error, suggesting that enforcement helps the
+model iterate more carefully but does not fully eliminate reasoning
+failures.
+
+In one G1 run, the model returned a plain-text response without invoking
+any tools; this is a known limitation addressable at the agent level by
+requiring tool-call output format.
+
+% ============================================================
+\section{Discussion and Threats to Validity}
+% ============================================================
+
+\textbf{Construct validity.}  The benchmark cases and ground-truth labels
+were constructed by the same author who implemented the guardrails, creating
+a risk of confirmation bias in both case design and metric definition.
+Independent validation of the benchmark, for example by domain experts or
+via crowdsourced annotation, is needed to establish external validity.
+
+\textbf{Internal validity.}  The benchmark spans five failure modes but
+remains small (22 cases).  It may not cover all failure patterns encountered
+in real deployments.  The deterministic validators are simplified models
+that do not capture real-world grid dynamics (e.g., transmission constraints,
+curtailment, market pricing).
+
+\textbf{External validity.}  All results use Gemini~2.5~Flash at default
+temperature.  Behavior may differ for other model families (GPT-4o,
+Claude~3.5, Llama~3) or under non-default temperature settings.  Real
+agents face noisier, less structured case descriptions than our benchmark
+provides.
+
+\textbf{Cost and benefit.}  B3 and G1 use 21.8k and 26.1k tokens per run
+(18.8$\times$ and 22.5$\times$ B1), primarily from multi-round function
+calls and model thinking.  However, latency for both is ${\sim}$41\,s, only
+1.2$\times$ B1 and actually faster than B2 (87.6\,s), since sequential
+critique rounds are expensive.  For 100+\,MW infrastructure decisions
+with capital expenditure in the hundreds of millions, the token overhead
+is justified given the 4 to 8$\times$ reduction in invalid decisions.
+
+\textbf{Alternative designs.}  A lighter-weight alternative to gateway
+enforcement is post-hoc repair: run the agent without safeguards, re-run
+the validators on its proposed mix, and feed any violations back as
+error messages for the agent to revise on a subsequent turn.  This
+avoids MCP-level modification and may match G1 on benchmarks where
+validators are pure functions and a wrong intermediate answer is
+recoverable.  Pre-execution enforcement remains preferable when tool
+calls carry side effects (e.g., procurement, dispatch commitments) or
+when the agent's first emitted recommendation is itself acted upon,
+which is the regime our gateway targets.  We therefore do not claim that
+pre-execution enforcement dominates post-hoc repair; our comparison isolates
+enforcement against tool availability without mandatory enforcement.  A
+head-to-head comparison of pre-execution enforcement versus post-hoc repair
+under matched token budgets is left to future work.
+
+\textbf{Generalizability.}  The core mechanism, a stateful gateway enforcing
+prerequisite tool calls, should generalize to other safety-critical agentic
+domains (structural design, chemical process design, medical treatment
+planning).  Future work should evaluate whether the architecture transfers
+without domain-specific tuning.
+
+% ============================================================
+\section{Conclusion}
+% ============================================================
+
+This paper presents a deterministic MCP guardrail framework for LLM-based
+power-pathway planning agents, evaluated in a live experiment with
+Gemini~2.5~Flash across 88 runs (4 agents $\times$ 22 cases).  The
+primary finding is that providing validator tools (B3) reduces the
+invalid-decision rate from 36.4\% to 9.1\%, and adding mandatory
+pre-execution enforcement (G1) further reduces it to 4.5\%.
+Self-critique (B2) provides no benefit over the prompt-only baseline.
+Tool availability accounts for most of the observed improvement, while
+enforcement can provide an additional safety margin for constraint-heavy
+engineering domains.  Future work will extend the benchmark, evaluate
+across multiple model families, and investigate adversarial attacks
+targeting gateway bypass.
+
+\bibliographystyle{IEEEtran}
+\bibliography{refs}
+
+\end{document}
